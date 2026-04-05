@@ -1,0 +1,7 @@
+export enum TurnPhase{
+  INCORPORATION = 'INCORPORATION',
+  ATTACK = 'ATTACK',
+  REGROUP = 'REGROUP',
+  ASK_CARD = 'ASK_CARD',
+  EXCHANGE = 'EXCHANGE'
+}

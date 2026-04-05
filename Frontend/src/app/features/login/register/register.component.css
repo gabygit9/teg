@@ -1,0 +1,77 @@
+* {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: medium;
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("/assets/images/Tablero 72 dpi.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+
+.logo {
+  display: flex;
+  justify-self: center;
+  margin-bottom: 15%;
+}
+
+.form-component {
+  margin-bottom: 10%;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+}
+
+.btn:hover {
+  background-color: #5d0da8;
+}
+
+.btn {
+  transition: background-color 0.3s;
+  color: white;
+  border-radius: 999px;
+  height: 35px;
+  width: 150px;
+  background-color: #510451;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  gap: 20%;
+}
+
+.form-input {
+  padding: 0 15px;
+  line-height: 40px;
+  border: 1px solid #ccc;
+  height: 35px;
+  width: 100%;
+  border-radius: 999px;
+}
+
+.form-button-container {
+  display: flex;
+  gap: 50px;
+  flex-direction: row;
+}
+
+.error-message {
+  color: red;
+  font-size: small;
+  font-weight: bold;
+  align-self: center;
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px  1px 0 black,
+    1px  1px 0 black;
+}

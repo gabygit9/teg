@@ -1,0 +1,33 @@
+@if (showModal()) {
+  <div class="modal-backdrop">
+    <div class="modal">
+      <h2>Resultado del ataque</h2>
+
+      <div class="dice-section">
+        <h3>Atacante</h3>
+        <div class="dice-row">
+          @for (dice of result?.diceAttacker; track $index) {
+            <span>{{ dice }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="dice-section">
+        <h3>Defensor</h3>
+        <div class="dice-row">
+          @for (dice of result?.diceDefensor; track $index) {
+            <span>{{ dice }}</span>
+          }
+        </div>
+      </div>
+
+      @if (result?.wereConquered) {
+        <p class="conquista-msg">¡El atacante conquistó el país!</p>
+      } @else {
+        <p>El defensor resistió el ataque.</p>
+      }
+
+      <button (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+}

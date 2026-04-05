@@ -1,0 +1,43 @@
+<app-base-modal
+  [isOpen]="isOpen"
+  [title]="title"
+  size="small"
+  [showFooter]="true"
+  [customClass]="containerClass"
+  (onClose)="closeModal()">
+
+  <!-- Icono en el slot del título -->
+  <span slot="icon" *ngIf="showIcon" class="confirmation-icon">
+    {{ icon }}
+  </span>
+
+  <!-- Contenido principal -->
+  <div class="confirmation-content">
+    <p class="confirmation-message">{{ message }}</p>
+
+    <!-- Mensaje adicional para acciones destructivas -->
+    <div *ngIf="destructive" class="destructive-warning">
+      <p class="warning-text">
+        <strong>⚠️ Esta acción no se puede deshacer</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- Botones en el footer -->
+  <div slot="footer" class="confirmation-actions">
+    <app-base-button
+      variant="ghost"
+      [disabled]="loading"
+      (onClick)="cancel()">
+      {{ cancelText }}
+    </app-base-button>
+
+    <app-base-button
+      [variant]="confirmButtonVariant"
+      [loading]="loading"
+      (onClick)="confirm()">
+      {{ confirmText }}
+    </app-base-button>
+  </div>
+
+</app-base-modal>

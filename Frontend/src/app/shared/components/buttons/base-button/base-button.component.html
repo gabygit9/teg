@@ -1,0 +1,34 @@
+<button
+  [type]="type"
+  [class]="buttonClasses"
+  [disabled]="disabled || loading"
+  (click)="handleClick($event)"
+>
+
+  <!-- Loading Spinner -->
+  <span *ngIf="loading" class="button-spinner">
+    <div class="spinner"></div>
+  </span>
+
+  <!-- Contenido del botón cuando no está loading -->
+  <ng-container *ngIf="!loading">
+
+    <!-- Icono izquierdo -->
+    <span *ngIf="icon && iconPosition === 'left'" class="button-icon button-icon--left">
+      {{ icon }}
+    </span>
+
+    <!-- Contenido/texto del botón -->
+    <span class="button-content">
+      <ng-content></ng-content>
+    </span>
+
+    <!-- Icono derecho -->
+    <span *ngIf="icon && iconPosition === 'right'" class="button-icon button-icon--right">
+      {{ icon }}
+    </span>
+
+  </ng-container>
+
+</button>
+

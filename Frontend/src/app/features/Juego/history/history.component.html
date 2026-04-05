@@ -1,0 +1,18 @@
+<div class="historial-container" *ngIf="openHistory">
+  <div class="historial-header">
+    <span>Historial</span>
+    <button class="close-btn" (click)="closeHistory()">✕</button>
+
+  </div>
+
+  <div class="historial-messages">
+    <div *ngFor="let event of history">
+      <div class="message-bubble">
+        {{ event.description }}
+        <div class="meta">
+          <small>{{ getHour(event.dateTime) }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

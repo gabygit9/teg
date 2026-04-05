@@ -1,0 +1,30 @@
+<div class="chat-container" *ngIf="openChat">
+  <div class="chat-header">
+    <span>Chat</span>
+    <button class="close-btn" (click)="closeChat()">✕</button>
+  </div>
+
+  <div class="chat-messages" #messagesContainer>
+    @for (message of messages; track message.id) {
+      <div class="bubble-left">
+        <div [ngClass]="message.senderId === playerId ? 'own-message' : 'other-message'" class="message-bubble">
+        <span class="player-name">
+          <span
+            class="color-icon"
+            [style.background-color]="getColorPlayers(message.senderId)"
+            title="{{ getPlayerName(message.senderId) }}">
+          </span>
+          <strong>{{ getPlayerName(message.senderId) }}</strong>
+        </span>
+          <div>{{ message.content }}</div>
+          <div class="meta">{{ getHour(message.dateTime) }}</div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" placeholder="Escribi un message..."/>
+    <button (click)="sendMessage()" class="send-btn"></button>
+  </div>
+</div>

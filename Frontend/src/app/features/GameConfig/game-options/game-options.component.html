@@ -1,0 +1,58 @@
+<div class="game-config-container">
+  <form #configForm="ngForm" class="main">
+
+    <div class="title-config">
+      <h1 class="title">Configuración de game</h1>
+      <div class="lane"> </div>
+    </div>
+
+    <section class="player-options">
+      <div>
+        <label>Cantidad de jugadores: (mínimo 3, máximo 6)</label>
+        <div class="players-size">
+          <button class="btn-plyr-size" type="button" (click)="removePlayers()" [disabled]="options.players == 3"> − </button>
+          <p style="font-size: larger">{{options.players}}</p>
+          <button class="btn-plyr-size" type="button" (click)="addPlayers()" [disabled]="options.players == 6"> + </button>
+        </div>
+      </div>
+      <div class="color-option">
+        <label for="color">Seleccione su color</label>
+        <div class="color-container">
+          <p>Color:</p>
+          <select class="color-selection" name="color"
+                  [(ngModel)]="options.host.color.id"
+          >
+            <option value="1">Rojo</option>
+            <option value="2">Azul</option>
+            <option value="3">Verde</option>
+            <option value="4">Amarillo</option>
+            <option value="5">Negro</option>
+            <option value="6">Magenta</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <label>Elegir Bots:</label>
+    <div  class="bot-players">
+      @for (item of Array(options.players - 1); track $index) {
+        <div class="bot-player">
+          <input type="checkbox" #checkbox (click)="checkBot($index)" />
+          <p>Bot {{$index + 1}} -</p>
+          <select #select class="bot-difficulty" name="level" [disabled]="checkbox.checked">
+            <option value="Novice">Novato</option>
+            <option value="Balanced">Balanceado</option>
+            <option value="Expert">Experto</option>
+          </select>
+        </div>
+      }
+    </div>
+
+
+    <div class="actions-butons">
+      <button class="action-btn" type="button" (click)="goLobby()">Volver</button>
+      <button class="action-btn" type="button" (click)="emitSubmit();changePageToPlayers.emit('game-players')">Buscar Jugadores</button>
+    </div>
+  </form>
+</div>
+

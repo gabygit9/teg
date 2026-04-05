@@ -1,0 +1,7 @@
+.game-config-container {
+  background: url('/assets/images/Tablero 72 dpi.jpg') no-repeat center center;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+
+}

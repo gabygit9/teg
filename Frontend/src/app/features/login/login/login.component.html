@@ -1,0 +1,49 @@
+<div class="login-container">
+  <img class="logo"
+       ngSrc="/assets/pagesImages/logo-teg.png"
+       alt="logo-teg"
+       height="250"
+       width="250"
+       priority
+  >
+
+  <form #login="ngForm" (ngSubmit)="onSubmit(login)">
+    <div *ngIf="isLoggedIn">
+      <h2 class="texto-blanco-grande">Sesión iniciada por: <strong>{{ userName }}</strong></h2>
+      <button class="btn" type="button" (click)="logOut()">Cerrar sesión</button>
+      <button class="btn" type="button" (click)="irAlLobby()">Volver al Lobby</button>
+    </div>
+
+    <ng-container *ngIf="!isLoggedIn">
+      <div class="form-component">
+        <input class="form-input" name="email" type="email" placeholder="Ingrese su email"
+               #loginEmail="ngModel"
+               required email minlength="10" maxlength="30"
+               [(ngModel)]="userModel.email"
+        >
+      </div>
+
+      <div class="form-component">
+        <input class="form-input" name="password" type="password" placeholder="Ingrese su contraseña"
+               #loginPassword="ngModel"
+               required minlength="6" maxlength="20"
+               [(ngModel)]="userModel.password"
+        >
+      </div>
+      <div class="form-button-container">
+        <button class="btn" type="submit">Iniciar Sesión</button>
+        <button class="btn" type="button" routerLink="/register">Registrarse</button>
+      </div>
+    </ng-container>
+
+    <div class="form-button-container">
+      <button class="btn" type="button" routerLink="/update">Actualizar registro</button>
+    </div>
+
+    <div class="form-button-container">
+      <button class="btn btn-outline" type="button" routerLink="/">Volver al Inicio</button>
+    </div>
+
+
+  </form>
+</div>

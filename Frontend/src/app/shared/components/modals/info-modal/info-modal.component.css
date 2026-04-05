@@ -1,0 +1,85 @@
+
+.info-content {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.info-message {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.info-icon {
+  font-size: 2rem;
+}
+
+.auto-close-indicator {
+  margin-top: 30px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auto-close-text {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin: 0 0 10px 0;
+}
+
+.auto-close-progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  transform: translateX(-100%);
+  animation: progressFill linear forwards;
+}
+
+@keyframes progressFill {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0%); }
+}
+
+.info-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Variantes por tipo */
+.info-modal--info .info-icon {
+  color: #3b82f6;
+}
+
+.info-modal--success .info-icon {
+  color: #10b981;
+}
+
+.info-modal--warning .info-icon {
+  color: #f59e0b;
+}
+
+.info-modal--error .info-icon {
+  color: #ef4444;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .info-message {
+    font-size: 1rem;
+  }
+
+  .auto-close-text {
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,122 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #715735;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  min-width: 400px;
+  border: 3px solid black;
+}
+
+button {
+  background-color: #4b3f2f;
+  color: white;
+  border: none;
+  padding: 12px;
+  text-align: left;
+  font-size: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #80663c;
+}
+
+button:not(:disabled):hover {
+  background-color: #322b23;
+}
+
+.cards-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 5px;
+  width: 120px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card.selected {
+  border: 3px solid #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+  transform: scale(1.03);
+}
+
+
+.exito-texto {
+  color: yellow;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+.symbol-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+
+.nombre-pais {
+  font-size: 14px;
+  color: black;
+  margin-top: 4px;
+}
+
+.card-country {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+}
+
+.new {
+  border-color: green;
+}
+
+.card.used {
+  border-color: red;
+  opacity: 0.7;
+}
+
+.usada-text {
+  color: red;
+  font-weight: bold;
+}
+.alerta-modal {
+  background-color: #ffdede;
+  border: 1px solid #ff0000;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+.alerta-canje-obligatorio {
+  background-color: #ffd1d1;
+  padding: 10px;
+  margin-top: 10px;
+  border: 2px solid red;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  color: #900;
+}

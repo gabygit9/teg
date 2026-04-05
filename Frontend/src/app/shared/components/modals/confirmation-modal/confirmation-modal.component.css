@@ -1,0 +1,66 @@
+/* src/app/shared/components/modals/confirmation-modal/confirmation-modal.component.css */
+
+.confirmation-content {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.confirmation-message {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin: 0 0 20px 0;
+}
+
+.confirmation-icon {
+  font-size: 2rem;
+}
+
+.destructive-warning {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.warning-text {
+  color: #fca5a5;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.confirmation-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* Variantes por tipo */
+.confirmation-modal--danger .confirmation-icon {
+  color: #ef4444;
+}
+
+.confirmation-modal--warning .confirmation-icon {
+  color: #f59e0b;
+}
+
+.confirmation-modal--info .confirmation-icon {
+  color: #3b82f6;
+}
+
+.confirmation-modal--success .confirmation-icon {
+  color: #10b981;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .confirmation-actions {
+    flex-direction: column;
+  }
+
+  .confirmation-message {
+    font-size: 1rem;
+  }
+}

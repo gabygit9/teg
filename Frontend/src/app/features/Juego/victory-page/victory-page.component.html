@@ -1,0 +1,11 @@
+<div class="modal-backdrop">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2 class="victory">¡Victoria!</h2>
+    <p>{{winner}} ha ganado la game</p>
+    <div class="middle-content">
+      <h3 class="objective">Objetivo: {{objectiveAchieved}}</h3>
+
+    </div>
+    <button (click)="closeVictory()">Cerrar</button>
+  </div>
+</div>

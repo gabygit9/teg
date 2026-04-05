@@ -1,0 +1,216 @@
+<div class="victoria-container">
+
+  <!-- Confetti Animation -->
+  <div *ngIf="showConfetti" class="confetti-container">
+    <div class="confetti" *ngFor="let i of [].constructor(50); trackBy: trackByPlayer"></div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="loading-spinner"></div>
+    <h2>Calculando resultados finales...</h2>
+    <p>Preparando tu victoria épica</p>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div *ngIf="!loading && result" class="main-content">
+
+    <!-- Hero Section - Celebración del Ganador -->
+    <section class="hero-section">
+      <div class="victory-celebration">
+        <div class="crown-icon">👑</div>
+        <h1 class="victory-title">
+          <span *ngIf="result?.winner.isCurrentUser" class="victory-text">
+            ¡VICTORIA!
+          </span>
+          <span *ngIf="!result?.winner.isCurrentUser" class="defeat-text">
+            PARTIDA TERMINADA
+          </span>
+        </h1>
+
+        <div class="winner-info">
+          <div class="winner-avatar" [style.background-color]="getColorHex(result?.winner.color)">
+            {{ result?.winner.name.charAt(0).toUpperCase() }}
+          </div>
+          <h2 class="winner-name">{{ result?.winner.name }}</h2>
+          <p class="winner-achievement">{{ result?.winner.objectiveAchieved }}</p>
+        </div>
+
+        <div class="victory-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ result?.winner.countriesConquered }}</span>
+            <span class="stat-label">Países Conquistados</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ result.totalDuration }}</span>
+            <span class="stat-label">Duración</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ getPercentageWin(result?.winner) }}%</span>
+            <span class="stat-label">Tasa de Victoria</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ranking de Jugadores -->
+    <section *ngIf="showRanking" class="ranking-section">
+      <h2 class="section-title">
+        <span class="title-icon">🏆</span>
+        Ranking Final
+      </h2>
+
+      <div class="ranking-list">
+        <div *ngFor="let player of result?.players; trackBy: trackByPlayer"
+             class="ranking-item"
+             [class.winner]="player.winner"
+             [class.current-user]="player.isCurrentUser">
+
+          <div class="ranking-position">
+            <span class="medal">{{ getMedal(player.position) }}</span>
+            <span class="position-number">{{ player.position }}°</span>
+          </div>
+
+          <div class="player-info">
+            <div class="player-avatar" [style.background-color]="getColorHex(player.color)">
+              {{ player.name.charAt(0).toUpperCase() }}
+            </div>
+            <div class="player-details">
+              <h3 class="player-name">{{ player.name }}</h3>
+              <p class="player-objective">{{ player.achievedObjective }}</p>
+            </div>
+          </div>
+
+          <div class="player-stats">
+            <div class="stat">
+              <span class="stat-value">{{ player.countriesConquered }}</span>
+              <span class="stat-name">Países</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ player.battlesWon }}</span>
+              <span class="stat-name">Victorias</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ getPercentageWin(player) }}%</span>
+              <span class="stat-name">Efectividad</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Estadísticas Detalladas -->
+    <section *ngIf="showStatistics" class="statistics-section">
+      <h2 class="section-title">
+        <span class="title-icon">📊</span>
+        Estadísticas de la Partida
+      </h2>
+
+      <div class="stats-grid">
+
+        <!-- Información General -->
+        <div class="stats-card">
+          <h3>Información General</h3>
+          <div class="stats-list">
+            <div class="stats-item">
+              <span class="stats-label">Partida:</span>
+              <span class="stats-value">{{ result.name }}</span>
+            </div>
+            <div class="stats-item">
+              <span class="stats-label">Inicio:</span>
+              <span class="stats-value">{{ formatDuration(result?.startDate) }}</span>
+            </div>
+            <div class="stats-item">
+              <span class="stats-label">Fin:</span>
+              <span class="stats-value">{{ formatDuration(result?.finishDate) }}</span>
+            </div>
+            <div class="stats-item">
+              <span class="stats-label">Duración total:</span>
+              <span class="stats-value">{{ result?.totalDuration }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estadísticas de Combate -->
+        <div class="stats-card">
+          <h3>Combate</h3>
+          <div class="stats-list">
+            <div class="stats-item">
+              <span class="stats-label">Total de batallas:</span>
+              <span class="stats-value">{{ result?.generalStatistics.totalBattles }}</span>
+            </div>
+            <div class="stats-item">
+              <span class="stats-label">País más disputado:</span>
+              <span class="stats-value">{{ result?.generalStatistics.mostDisputedCountry }}</span>
+            </div>
+            <div class="stats-item">
+              <span class="stats-label">Mayor conquista:</span>
+              <span class="stats-value">{{ result?.generalStatistics.greatestConquest }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estadísticas Personales -->
+        <div class="stats-card" *ngIf="result?.winner.isCurrentUser">
+          <h3>Tus Logros</h3>
+          <div class="achievements">
+            <div class="achievement">
+              <span class="achievement-icon">🗺️</span>
+              <span class="achievement-text">Conquistador Mundial</span>
+            </div>
+            <div class="achievement">
+              <span class="achievement-icon">⚔️</span>
+              <span class="achievement-text">{{ result?.winner.battlesWon }} Batallas Ganadas</span>
+            </div>
+            <div class="achievement">
+              <span class="achievement-icon">🎯</span>
+              <span class="achievement-text">Objetivo Cumplido</span>
+            </div>
+            <div class="achievement" *ngIf="result?.generalStatistics.quickGame">
+              <span class="achievement-icon">⚡</span>
+              <span class="achievement-text">Victoria Rápida</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Acciones Finales -->
+    <section class="actions-section">
+      <div class="actions-container">
+
+        <div class="primary-actions">
+          <button class="btn btn-primary" (click)="newGame()">
+            <span class="btn-icon">🎮</span>
+            Nueva Partida
+          </button>
+          <button class="btn btn-secondary" (click)="returnLobby()">
+            <span class="btn-icon">🏠</span>
+            Volver al Lobby
+          </button>
+        </div>
+
+        <div class="secondary-actions">
+          <button class="btn btn-outline" (click)="shareResult()">
+            <span class="btn-icon">📤</span>
+            Compartir Resultado
+          </button>
+          <button class="btn btn-outline" (click)="seeCompleteStatistics()">
+            <span class="btn-icon">📈</span>
+            Ver Estadísticas Completas
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="victory-footer">
+    <p>"En la guerra, la supremacía consiste en quebrar la resistencia del enemigo sin luchar" - Sun Tzu</p>
+  </footer>
+
+</div>

@@ -1,0 +1,10 @@
+<div class="modal-backdrop" (click)="close_modal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Objetivo Secreto</h2>
+      <p class="descripcion">{{ objective?.description }}</p>
+      <p [ngClass]="{ 'cumplido': achieved, 'no-cumplido': !achieved }">
+      {{ achieved ? '¡Cumplido!' : 'Sin cumplir' }}
+      </p>
+    <button (click)="close_modal()">Cerrar</button>
+  </div>
+</div>

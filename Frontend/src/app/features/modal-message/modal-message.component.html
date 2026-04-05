@@ -1,0 +1,23 @@
+@if (showModal) {
+  <div class="modal-overlay">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalMessage">
+
+      <button class="close-btn" (click)="closeModal()" aria-label="Cerrar modal">×</button>
+
+<!--     // El titulo del modal es opcional, tranquilamente le pueden pasar un mensaje sin titulo-->
+      @if (title) {
+        <div class="modal-header">
+          <h2 id="modalTitle">{{ title }}</h2>
+        </div>
+      }
+
+      <div class="modal-body" id="modalMessage">
+        {{ message }}
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="closeModal()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,44 @@
+<app-base-modal
+  [isOpen]="isOpen"
+  [title]="title"
+  [size]="size"
+  [showFooter]="true"
+  [customClass]="containerClass"
+  (onClose)="closeModal()">
+
+  <!-- Icono en el slot del título -->
+  <span slot="icon" *ngIf="showIcon" class="info-icon">
+    {{ icon }}
+  </span>
+
+  <!-- Contenido principal -->
+  <div class="info-content">
+
+    <!-- Mensaje principal -->
+    <div class="info-message" [innerHTML]="message"></div>
+
+    <!-- Slot para contenido adicional -->
+    <ng-content></ng-content>
+
+    <!-- Indicador de auto-close -->
+    <div *ngIf="autoClose" class="auto-close-indicator">
+      <p class="auto-close-text">
+        Este message se cerrará automáticamente en {{ autoCloseDelay / 1000 }} segundos
+      </p>
+      <div class="auto-close-progress">
+        <div class="progress-bar" [style.animation-duration.s]="autoCloseDelay / 1000"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Botón en el footer -->
+  <div slot="footer" class="info-actions">
+    <app-base-button
+      [variant]="buttonVariant"
+      (onClick)="handleButtonClick()">
+      {{ buttonText }}
+    </app-base-button>
+  </div>
+
+</app-base-modal>

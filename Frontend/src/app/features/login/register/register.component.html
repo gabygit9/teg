@@ -1,0 +1,80 @@
+<div class="login-container">
+  <img class="logo"
+       ngSrc="/assets/pagesImages/logo-teg.png"
+       alt="logo-teg"
+       height="250"
+       width="250"
+       priority
+  >
+  <form #register="ngForm" (ngSubmit)="onSubmit(register)">
+
+    <div class="form-component">
+      <input class="form-input" name="name" type="email" placeholder="Ingrese su nombre"
+             #loginName="ngModel"
+             required
+             minlength="3"
+             maxlength="20"
+             [(ngModel)]="userModel.name"
+      >
+      @if (loginName.getError("required") && (loginName.dirty || loginName.touched)) {
+        <div class="error-message">¡Debe ingresar un nombre!</div>
+      } @else if (loginName.getError("minlength") && (loginName.dirty || loginName.touched)) {
+        <div class="error-message">¡El mínimo de carácteres es 3!</div>
+      }
+    </div>
+
+    <div class="form-component">
+      <input class="form-input" name="email" type="email" placeholder="Ingrese su email"
+             #loginEmail="ngModel"
+             required
+             email
+             minlength="10"
+             maxlength="30"
+             [(ngModel)]="userModel.email"
+      >
+      @if (loginEmail.getError("required") && (loginEmail.dirty || loginEmail.touched)) {
+        <div class="error-message">¡Debe ingresar un email!</div>
+      } @else if (loginEmail.getError("email") && (loginEmail.dirty || loginEmail.touched)) {
+        <div class="error-message">¡Debe ingresar un email válido!</div>
+      } @else if (loginEmail.getError("minlength") && (loginEmail.dirty || loginEmail.touched)) {
+        <div class="error-message">¡El mínimo de carácteres es 10!</div>
+      }
+    </div>
+
+    <div class="form-component">
+      <input class="form-input" name="password" type="password" placeholder="Ingrese su contraseña"
+             #loginPassword="ngModel"
+             required
+             minlength="8"
+             maxlength="20"
+             [(ngModel)]="userModel.password"
+      >
+      @if (loginPassword.getError("required") && (loginPassword.dirty || loginPassword.touched)) {
+        <div class="error-message">¡Debe ingresar una contraseña!</div>
+      } @else if (loginPassword.getError("minlength") && (loginPassword.dirty || loginPassword.touched)) {
+        <div class="error-message">¡El mínimo de carácteres es 8!</div>
+      }
+    </div>
+
+    <div class="form-component">
+      <input class="form-input" name="confirmPassword" type="password" placeholder="Confirme su contraseña"
+             #confirmPassword="ngModel"
+             required
+             minlength="6"
+             maxlength="20"
+             [(ngModel)]="userModel.confirmPassword"
+      >
+      @if (confirmPassword.getError("required") && (confirmPassword.dirty || confirmPassword.touched)) {
+        <div class="error-message">¡Debe confirmar su contraseña!</div>
+      } @else if (confirmPassword.getError("minlength") && (confirmPassword.dirty || confirmPassword.touched)) {
+        <div class="error-message">¡El mínimo de carácteres es 6!</div>
+      }
+    </div>
+
+    <div class="form-button-container">
+      <button class="btn" type="button" routerLink="/login">Volver</button>
+      <button class="btn" type="submit">Confirmar registro</button>
+    </div>
+
+  </form>
+</div>

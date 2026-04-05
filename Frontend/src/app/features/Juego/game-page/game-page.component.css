@@ -1,0 +1,118 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('/assets/images/Tablero 72 dpi.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  position: relative;
+}
+
+.game-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+.game-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.header {
+  background-color: #322b23;
+  color: white;
+  height: 50px;
+  padding: 8px 16px;
+  display: flex;
+  gap: 40px;
+  overflow: hidden;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  flex-wrap: nowrap;
+  min-height: 50px;
+  max-height: 60px;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #4b3f2f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  font-size: 16px;
+  border-bottom: 1px solid #ffffff33;
+  padding-bottom: 4px;
+}
+
+.sidebar p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.sidebar button {
+  background-color: #ffffff33;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar button:hover {
+  background-color: #5d4e3b;
+}
+
+.map-and-size {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+
+  /* NUEVO: aseguran que se repartan correctamente */
+  min-width: 0;
+}
+
+.mapa {
+  min-width: 0;
+  z-index: 10;
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mapa img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.historial {
+  flex: 1;
+  background-color: #2e1a1a;
+  overflow-y: auto;
+}
+

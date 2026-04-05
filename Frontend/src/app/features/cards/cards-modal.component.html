@@ -1,0 +1,53 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Mis Tarjetas</h2>
+    <div class="cards-container">
+      <ng-container *ngFor="let card of cards">
+        <div
+          class="card"
+          [ngClass]="{
+          'used': card.used,
+          'new': !card.used,
+          'selected': selectedCards.includes(card.id)
+          }"
+          (click)="selectCard(card.id)"
+        >
+            <img
+              [src]="getSymbolImage(card.symbol)"
+              alt="{{ card.symbol }}"
+              class="symbol-img"
+            />
+
+          <p><strong class="nombre-country">{{ card.country.toUpperCase() }}</strong></p>
+            <p *ngIf="card.used" class="usada-text">Usada</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <p *ngIf="!cards.length">No tiene ninguna tarjeta</p>
+    <p *ngIf="successMessage" class="exito-texto">{{ successMessage }}</p>
+    <button
+      (click)="doExchange()"
+      [disabled]="selectedCards.length !== 3"
+    >
+      Realizar exchange
+    </button>
+
+    <button (click)="requestArmy()" [disabled]="allUsed() || selectedCards.length !== 1">Solicitar ejércitos</button>
+    <button
+      (click)="close.emit()"
+      [disabled]="cards.length >= 6"
+    >Cerrar</button>
+
+    <div *ngIf="cards.length >= 6" class="alerta-exchange-obligatorio">
+      <p><strong>Debes realizar un exchange. No puedes continuar con 6 o más tarjetas.</strong></p>
+    </div>
+
+    <div *ngIf="showAlert" class="alerta-modal">
+      <p>No posees el país <strong>{{ countryNotPossessed }}</strong>.</p>
+      <button (click)="closeAlert()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+

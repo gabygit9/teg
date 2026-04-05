@@ -1,0 +1,27 @@
+<div class="lobby">
+  <div class="menu-lobby">
+
+
+
+    <h2 class="title">Partidas guardadas</h2>
+
+    <div class="games">
+      @for (game of games; track game.gameId) {
+        <button
+          class="game"
+          [class.selected]="game.gameId === selectedGameId"
+          (click)="selectGame(game.gameId)">
+          Partida {{ game.dateLastSave }}
+        </button>
+      }
+    </div>
+
+    <div class="botones">
+      <button class="btn" (click)="goToTheMap()">Cargar Partida</button>
+      <button class="btn" (click)="loadGameConfig()">Crear Nueva Partida</button>
+      <button class="btn" (click)="goLogin()">Volver al Login</button>
+      <button class="btn" (click)="goHome()">Volver al Inicio</button>
+    </div>
+  </div>
+
+</div>

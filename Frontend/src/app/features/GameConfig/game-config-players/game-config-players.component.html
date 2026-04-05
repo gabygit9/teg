@@ -1,0 +1,46 @@
+<section class="game-players-container">
+  <div class="main">
+
+    <div class="title-config">
+      <h1 class="title">Buscando jugadores</h1>
+      <div class="lane"></div>
+    </div>
+
+    <div style="display: flex;flex-direction: column">
+      <h3 style="">Cantidad de jugadores: {{ options.players }}</h3>
+
+      <div style="display: flex; flex-direction: row;gap: 5%;">
+        <p>Host: {{ options.host.name || 'No name' }}</p>
+        <p>Color: {{ options.host.color.name }}</p>
+      </div>
+
+      <p>Jugadores:</p>
+      <div style="display: flex; flex-wrap: wrap;justify-content: space-evenly">
+        @for (bot of options.bots; track bot.id) {
+          <div>
+            <p>Nombre: {{ bot.name }}</p>
+            <p>Dificultad: {{ bot.difficulty }}</p>
+            <p>Color: {{ bot.color.name }}</p>
+          </div>
+        }
+      </div>
+
+      @if (options.bots.length === 0) {
+        <p>Esperando jugadores</p>
+      }
+    </div>
+
+    <div class="actions-butons">
+      <button class="action-btn" type="button"
+              (click)="changePageToOptions.emit('game-options');options = null;"
+              [disabled]="disableButtons"
+      >Cancelar Partida</button>
+      @if (options!.players == options!.bots.length + 1) {
+        <button class="action-btn" type="button"
+                (click)="startGame()"
+                [disabled]="disableButtons"
+        >Iniciar Partida</button>
+      }
+    </div>
+  </div>
+</section>

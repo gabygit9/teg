@@ -1,0 +1,33 @@
+<div class="info-panel-container">
+
+  <div class="turn-timer">
+    Contador turn: <strong>{{ time }}s</strong>
+  </div>
+
+  <div class="game-timer">
+    Contador game: <strong>{{ timeMinutes }}:{{ timeSeconds < 10 ? '0' + timeSeconds : timeSeconds }}</strong>
+  </div>
+
+  <div class="info-box pause-button">
+    <button (click)="togglePause()">{{ isPaused ? 'Reanudar' : 'Pausar' }}</button>
+  </div>
+
+
+
+  <div class="jugadores-header">
+    @for (player of players; track $index) {
+      <div class="jugador-item">
+        <span class="color-icon" [style.background-color]="player.colorCSS"></span>
+        @if (playerInTurn && player.name === playerInTurn?.player?.name) {
+          <span style="color: yellow;font-weight: bold;" class="jugador-nombre">{{ player.name }}</span>
+        } @else {
+          <span class="jugador-nombre">{{ player.name }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="message-turn" [style.display]="turnFinished ? 'block' : 'none'">
+    ¡Se te acabó el turn!
+  </div>
+</div>

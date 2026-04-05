@@ -1,0 +1,223 @@
+<div class="carga-games-container">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goToLobby()">
+        <span>←</span> Volver al Lobby
+      </button>
+      <h1 class="page-title">
+        <span class="title-icon">💾</span>
+        Partidas Guardadas
+      </h1>
+      <button class="btn-new-game" (click)="cretaeNewGame()">
+        <span>+</span> Nueva Partida
+      </button>
+    </div>
+  </header>
+
+  <!-- Filtros y Búsqueda -->
+  <section class="filters-section">
+    <div class="filters-container">
+
+      <!-- Búsqueda por texto -->
+      <div class="search-box">
+        <input
+          type="text"
+          placeholder="Buscar por nombre de game o jugador..."
+          [(ngModel)]="textFilter"
+          (input)="applyFilters()"
+          class="search-input"
+        >
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filters-row">
+        <div class="filter-group">
+          <label>Estado:</label>
+          <select [(ngModel)]="stateFilter" (change)="applyFilters()" class="filter-select">
+            <option *ngFor="let state of availableArmies" [value]="state.value">
+              {{ state.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Jugadores:</label>
+          <select [(ngModel)]="playersFiltered" (change)="applyFilters()" class="filter-select">
+            <option value="todos">Todos</option>
+            <option value="3">3 jugadores</option>
+            <option value="4">4 jugadores</option>
+            <option value="5">5 jugadores</option>
+            <option value="6">6 jugadores</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Ordenar por:</label>
+          <select [(ngModel)]="orderBy" (change)="applyFilters()" class="filter-select">
+            <option value="fecha-desc">Más recientes</option>
+            <option value="fecha-asc">Más antiguos</option>
+            <option value="nombre">Nombre A-Z</option>
+            <option value="progreso">Progreso</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contenido Principal -->
+  <main class="main-content">
+
+    <!-- Estado de Carga -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Cargando games guardadas...</p>
+    </div>
+
+    <!-- Estado de Error -->
+    <div *ngIf="!loading && error" class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Error al cargar games</h3>
+      <p>{{ error }}</p>
+      <button class="btn-retry" (click)="loadGames()">
+        🔄 Reintentar
+      </button>
+    </div>
+
+    <!-- Sin games encontradas -->
+    <div *ngIf="!loading && !error && filteredGames.length === 0 && games.length === 0" class="empty-state">
+      <div class="empty-icon">🎮</div>
+      <h3>No hay games guardadas</h3>
+      <p>¡Comienza tu primera conquista mundial!</p>
+      <button class="btn-create-first" (click)="cretaeNewGame()">
+        <span>⚔️</span> Crear Primera Partida
+      </button>
+    </div>
+
+    <!-- Sin resultados en filtros -->
+    <div *ngIf="!loading && !error && filteredGames.length === 0 && games.length > 0" class="no-results-state">
+      <div class="no-results-icon">🔍</div>
+      <h3>No hay games que coincidan</h3>
+      <p>Intenta ajustar los filtros de búsqueda</p>
+      <button class="btn-clear-filters" (click)="textFilter=''; stateFilter='todos'; playersFiltered='todos'; applyFilters()">
+        Limpiar filtros
+      </button>
+    </div>
+
+    <!-- Lista de Partidas -->
+    <div *ngIf="!loading && !error && filteredGames.length > 0" class="games-grid">
+      <div *ngFor="let game of filteredGames; trackBy: trackByGame"
+           class="game-card"
+           [class.finished]="game.state === 'finished'">
+
+        <!-- Header de la carta -->
+        <div class="card-header">
+          <div class="game-info">
+            <h3 class="game-name">{{ game.nombre }}</h3>
+            <div class="game-meta">
+              <span class="estado-badge" [style.background-color]="getStateColor(game.state)">
+                {{ getStateIcon(game.state) }}
+                {{ game.state === 'in_progress' ? 'En curso' :
+                game.state === 'paused' ? 'Pausada' : 'Terminada' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-action btn-delete" (click)="confirmRemove(game)" title="Eliminar game">
+              🗑️
+            </button>
+          </div>
+        </div>
+
+        <!-- Información de la game -->
+        <div class="card-body">
+
+          <!-- Progreso -->
+          <div class="progress-section">
+            <div class="progress-info">
+              <span>Progreso</span>
+              <span>{{ game.progress }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="game.progress"></div>
+            </div>
+          </div>
+
+          <!-- Jugadores -->
+          <div class="players-section">
+            <h4>Jugadores ({{ game.players.length }})</h4>
+            <div class="players-list">
+              <span *ngFor="let player of game.players; trackBy: trackByPlayer"
+                    class="player-tag"
+                    [class.current-user]="player === 'TuNombre'">
+                {{ player }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Detalles -->
+          <div class="details-section">
+            <div class="detail-item">
+              <span class="detail-label">Creada:</span>
+              <span class="detail-value">{{ formatDate(game.creationDate) }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Última jugada:</span>
+              <span class="detail-value">{{ formatDate(game.lastPlayDate) }}</span>
+            </div>
+            <div *ngIf="game.duration" class="detail-item">
+              <span class="detail-label">Duración:</span>
+              <span class="detail-value">{{ game.duration }}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer con acciones -->
+        <div class="card-footer">
+          <button *ngIf="game.state !== 'finished'"
+                  class="btn-load"
+                  (click)="loadGame(game)">
+            <span>🎮</span> Continuar Partida
+          </button>
+          <button *ngIf="game.state === 'finished'"
+                  class="btn-view"
+                  disabled>
+            <span>🏆</span> Partida Terminada
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Información de resultados -->
+    <div *ngIf="!loading && !error && filteredGames.length > 0" class="results-info">
+      Mostrando {{ filteredGames.length }} de {{ games.length }} games
+    </div>
+
+  </main>
+
+  <!-- Modal de Confirmación -->
+  <div *ngIf="showModal && gameToRemove" class="modal-backdrop" (click)="openModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Confirmar Eliminación</h3>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que quieres eliminar la game <strong>"{{ gameToRemove?.name }}"</strong>?</p>
+        <p class="warning-text">Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="openModal()">Cancelar</button>
+        <button class="btn-confirm" (click)="deleteGame()">
+          <span>🗑️</span> Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

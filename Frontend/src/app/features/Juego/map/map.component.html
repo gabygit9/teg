@@ -1,0 +1,30 @@
+<div class="mapa">
+  <div class="map-container">
+    <div class="countries-wrapper">
+      <ng-container *ngFor="let country of mapCountries; let i = index">
+        <img
+          [src]="country.svgPath"
+          [alt]="country.countryName"
+          class="country-svg"
+          [ngClass]="{
+  'country-hovered': country.hovered,
+  'country-selected-origin': country.isSelectedOrigin,
+  'country-selected-destine': country.isSelectedDestine,
+  'country-selected-army': country.isSelectedArmy
+}"
+          [ngStyle]="getCountryStyle(country)"
+          (click)="onCountryClick(country)"
+          (mousemove)="checkPixelTransparency($event, country)"
+          (mouseleave)="country.hovered = false"
+        />
+
+        <div
+          class="ficha-ejercitos"
+          [ngStyle]="getChipStyle(country)"
+        >
+          {{ country.armyAmount }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

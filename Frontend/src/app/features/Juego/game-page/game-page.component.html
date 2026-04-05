@@ -1,0 +1,68 @@
+<div class="game-container">
+  <div class="header">
+    <app-player
+      [playerInTurn]="myPlayer"
+      [gameId]="gameId"
+      [seeObjective]="seeObjective"
+    ></app-player>
+    <app-info-panel
+      [playerInTurn]="playerInTurn"
+      [resetTimerSignal]="resetTimer"
+      (refreshTurn)="refreshTurn=$event"
+      (executeBot)="botEvent = true"
+    ></app-info-panel>
+  </div>
+
+  @if (showVictory()) {
+    <app-victory-page
+      [winner]="winner!.player.playerName"
+      [objectiveAchieved]="winner!.objective.description"
+      (close)="showVictory()"
+    />
+  }
+
+  <div class="main-content">
+    <app-actions-panel
+      [updateTurn]="refreshTurn"
+      [gameId]="gameId"
+      (finishedTurn)="onFinishedTurn()"
+      [selectedCountryToArmy]="countrySelectedToArmy"
+      (activeAttackMode)="onActiveAttackMode()"
+      (deactivateAttackMode)="onDeactivateAttackMode()"
+      (seeObjective)="onToggleObjective()"
+      (playerInTurnUpdated)="updatePlayerInTurn($event)"
+      (myPlayerUpdated)="updateMyPlayer($event)"
+      (seeChat)="onToggleChat()"
+      (activeRegroupMode)="activeModeRegroup()"
+
+
+      (toggleHistoryEvent)="onToggleHistory()"
+      class="sidebar"
+    ></app-actions-panel>
+    <div class="map-and-size">
+      <app-map
+        class="mapa"
+        [updatedCountries]="countries"
+        [attackMode]="attackMode"
+        [modeRegroup]="regroupMode"
+        [myPlayerId]="myPlayer?.id ?? 0"
+        (selectedAttack)="resolveAttack($event)"
+        (onCountrySelectedToArmyEvent)="onCountrySelectedToArmy($event)"
+        (onCountryRegroupSelectedOrigin)="onCountryRegroupSelectedOrigin($event)"
+        (onCountryRegroupSelectedDestine)="onCountryRegroupSelectedDestine($event)"
+      ></app-map>
+
+
+      <app-chat *ngIf="openChat" class="floating-chat"></app-chat>
+      <app-history
+        *ngIf="openHistory"
+        [gameId]="gameId"
+        class="floating-historial"
+        #historyComp>
+      </app-history>
+
+    </div>
+    <app-right-panel></app-right-panel>
+  </div>
+</div>
+
