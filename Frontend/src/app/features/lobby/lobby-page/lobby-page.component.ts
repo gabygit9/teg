@@ -8,9 +8,7 @@ import {ModalMessageService} from '../../../core/services/modal.service';
 
 @Component({
   selector: 'app-lobby-page',
-  imports: [
-    NgForOf
-  ],
+  imports: [],
   templateUrl: './lobby-page.component.html',
   styleUrl: './lobby-page.component.css'
 })

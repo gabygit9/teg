@@ -4,8 +4,8 @@
   align-items: center;
   height: 100%;
   padding: 0 16px;
-  background-color: #322b23;
-  color: white;
+  background-color: var(--card-bg);
+  color: var(--text-color);
   font-size: 16px;
   gap: 12px;
 }
@@ -29,14 +29,14 @@
 button {
   flex: 1;
   padding: 8px 16px;
-  background-color: #4b3f2f;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 button:hover {
-  background-color: #5d4e3b;
+  filter: brightness(1.05);
 }
 
 :host {
@@ -47,17 +47,12 @@ button:hover {
 }
 
 .mensaje-turno {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px 40px;
-  border-radius: 10px;
-}
-.mensaje-turno {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 36px;
-  color: white;
+  color: var(--text-color);
   font-weight: bold;
   background-color: rgba(0, 0, 0, 0.8);
   padding: 20px 40px;
@@ -121,7 +116,7 @@ button:hover {
 }
 
 .jugador-nombre {
-  color: white;
+  color: var(--text-color);
 }
 
 
@@ -138,11 +133,5 @@ button:hover {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 1px solid white;
+  border: 1px solid rgba(255,255,255,0.12);
 }
-
-.jugador-nombre {
-  color: white;
-  font-size: 14px;
-}
-

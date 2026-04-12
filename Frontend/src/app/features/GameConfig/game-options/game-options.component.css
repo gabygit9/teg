@@ -9,8 +9,8 @@
 
 .main {
   padding: 1% 5%;
-  color: white;
-  background: rgba(64, 64, 64, 0.85);
+  color: var(--text-color);
+  background: rgba(64, 64, 64, 0.85); /* keep translucent overlay but text uses theme */
   border-radius: 20px;
   width: 60%;
   height: 90%;
@@ -24,7 +24,7 @@
 }
 
 .lane {
-  background-color: white;
+  background-color: rgba(255,255,255,0.06); /* subtle line using theme light */
   height: 2px;
 }
 
@@ -53,7 +53,7 @@
 
 .btn-plyr-size:disabled {
   transition: 0s;
-  background-color: #6c95bf;
+  background-color: rgba(255,255,255,0.07);
 }
 
 .color-container {
@@ -111,24 +111,25 @@
 }
 
 button {
-  background-color: #2c3e50;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
 }
 
 select {
-  color: white;
+  color: var(--text-color);
   appearance: none;
   text-align: center;
   border-radius: 6px;
   cursor: pointer;
   transition: height 0.3s;
-  background-color: #37526c;
+  background-color: rgba(255,255,255,0.03);
 }
 
 button:hover {
-  background-color: #34495e;
+  transform: translateY(-1px);
+  filter: brightness(1.05);
 }

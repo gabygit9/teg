@@ -3,4 +3,82 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: black;
+  /* Tema global */
+  --bg-color: #0b0b0d; /* fondo ligeramente menos puro que negro */
+  --text-color: #e6e6e6; /* texto principal */
+  --muted-color: #bdbdbd; /* texto secundario */
+  --primary-color: #1e88e5; /* color primario para botones y acentos */
+  --button-bg: var(--primary-color);
+  --button-text: #ffffff;
+  --card-bg: #0f1720;
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Aplicar fondo globalmente usando la variable */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Botones coherentes a través de la app */
+button, .btn, input[type="button"], input[type="submit"] {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+button:hover, .btn:hover, input[type="button"]:hover, input[type="submit"]:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+button:active, .btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Enlaces que funcionan como botones */
+a.button-like {
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+
+/* Ajustes para componentes que podrían forzar texto blanco */
+.app-root, app-root, :root, #app-root {
+  color: var(--text-color) !important;
+}
+
+/* Componentes de tarjeta y panel */
+.card, .panel, .container {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+/* Inputs y selects coherentes */
+input, textarea, select {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+}
+
+/* Ajuste para texto secundario */
+.muted, .text-muted {
+  color: var(--muted-color) !important;
 }

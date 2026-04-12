@@ -1,11 +1,10 @@
-
 /* ==========================================================================
    VARIABLES Y CONFIGURACIÓN BASE
    ========================================================================== */
 .carga-partidas-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-  color: white;
+  color: var(--text-color);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -72,7 +71,7 @@
 
 .btn-new-game {
   background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
+  color: var(--button-text);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
@@ -108,7 +107,7 @@
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
-  color: white;
+  color: var(--text-color);
   font-size: 1rem;
   transition: all 0.3s ease;
 }
@@ -157,7 +156,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
-  color: white;
+  color: var(--text-color);
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -171,7 +170,7 @@
 
 .filter-select option {
   background: #1e293b;
-  color: white;
+  color: var(--text-color);
 }
 
 /* ==========================================================================
@@ -250,17 +249,17 @@
 
 .btn-retry {
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  color: white;
+  color: var(--button-text);
 }
 
 .btn-create-first {
   background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
+  color: var(--button-text);
 }
 
 .btn-clear-filters {
   background: rgba(107, 114, 128, 0.3);
-  color: #d1d5db;
+  color: var(--muted-color);
   border: 1px solid rgba(107, 114, 128, 0.5);
 }
 
@@ -317,7 +316,7 @@
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
-  color: white;
+  color: var(--button-text);
 }
 
 .card-actions {
@@ -459,7 +458,7 @@
 
 .btn-load {
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  color: white;
+  color: var(--button-text);
 }
 
 .btn-load:hover {
@@ -578,7 +577,7 @@
 
 .btn-confirm {
   background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: white;
+  color: var(--button-text);
 }
 
 .btn-confirm:hover {

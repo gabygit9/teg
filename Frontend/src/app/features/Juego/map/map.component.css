@@ -65,10 +65,10 @@
   justify-content: center;
   font-weight: bold;
   font-size: 14px;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
   pointer-events: none;
   z-index: 20;
-  color: white;
+  color: var(--text-color);
   text-shadow: 1px 1px 2px black;
 }
 
@@ -79,5 +79,3 @@
   z-index: 10;
   cursor: pointer;
 }
-
-

@@ -12,7 +12,7 @@
 }
 
 .modal-content {
-  background-color: #715735;
+  background-color: var(--card-bg);
   padding: 2rem;
   border-radius: 10px;
   min-width: 300px;
@@ -23,24 +23,24 @@
 }
 
 p {
-  color: yellow;
+  color: var(--text-color);
 }
 
 h2 {
-  color: yellow;
+  color: var(--text-color);
 }
 
 button {
   flex: 1;
   padding: 8px 16px;
-  background-color: #4b3f2f;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 button:hover {
-  background-color: #5d4e3b;
+  filter: brightness(1.05);
 }
 
 .modal-title {

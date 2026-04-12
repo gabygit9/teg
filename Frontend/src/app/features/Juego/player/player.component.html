@@ -1,15 +1,15 @@
 @if (playerInTurn) {
   <div class="player-header">
     <div class="player-row">
-      <span class="color-circle" [ngStyle]="{'background-color': getColorHex(playerInTurn?.color)}"></span>
-      <strong>{{ playerInTurn.player?.name }}</strong>
+      <span class="color-circle" [ngStyle]="{'background-color': getColorHex(playerInTurn.color)}"></span>
+      <strong>{{ playerInTurn.player.name }}</strong>
     </div>
     <div class="player-row">
-      <strong>Ejércitos en reserva:</strong> {{ playerInTurn.player?.availableArmies }}
+      <strong>Ejércitos en reserva:</strong> {{ playerInTurn.player.availableArmies }}
     </div>
     @if (seeObjective) {
       <div class="player-row">
-        <strong>Objetivo:</strong> {{ playerInTurn.objective?.description }}
+        <strong>Objetivo:</strong> {{ playerInTurn.objective.description }}
       </div>
     }
   </div>

@@ -41,7 +41,7 @@
   <app-cards-modal *ngIf="showCardModal()"
     [cards]="playerCards"
     [gameId]="gameId"
-    [playerId]="myPlayer?.id!"
+    [playerId]="myPlayer.id!"
     (requestedArmies)="refreshPlayer()"
     (close)="showCardModal.set(false)"
   ></app-cards-modal>

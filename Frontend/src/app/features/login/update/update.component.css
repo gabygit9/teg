@@ -35,15 +35,15 @@
   background-color: #5d0da8;
 }
 
-.btn {
+button, .btn {
   transition: background-color 0.3s;
-  color: white;
+  color: var(--button-text);
   border-radius: 999px;
   height: 35px;
   width: 150px;
-  background-color: #510451;
+  background-color: var(--button-bg);
   cursor: pointer;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(255,255,255,0.06);
   gap: 20%;
 }
 
