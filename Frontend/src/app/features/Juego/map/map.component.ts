@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';  // <== Importa esto
 import { MapCountry } from '../../../core/models/interfaces/MapCountry';
 import { Country } from '../../../core/enums/Country';
@@ -6,8 +6,6 @@ import { Continent } from '../../../core/enums/Continent';
 import {AttackDto} from '../../../core/models/interfaces/AttackDto';
 import {CountryGameDTO} from '../../../core/models/interfaces/CountryGame';
 import {GameDataDTO} from '../../../core/models/interfaces/GameDataDTO';
-import {Router} from '@angular/router';
-import {MementoService} from '../../../core/services/memento.service';
 import {ModalMessageService} from '../../../core/services/modal.service';
 
 @Component({
@@ -15,7 +13,7 @@ import {ModalMessageService} from '../../../core/services/modal.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './map.component.html',
-  styleUrl: './map.component.css'
+  styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
   ngOnInit(): void {
@@ -53,23 +51,24 @@ export class MapComponent implements OnInit {
     const gameCountries = gameData.countries;
 
     this._mapCountries.forEach( c => {
-      let match: CountryGameDTO | null = null;
+      // Buscar la coincidencia en gameCountries
+      let match: CountryGameDTO | undefined;
       for (let i = 0; i < gameCountries.length; i++) {
         if (c.countryName === gameCountries[i].countryName) {
           match = gameCountries[i];
-          break
+          break;
         }
       }
-      if (match === null) {
-        return;
-      }
-      c.playerId = match?.playerId;
+      if (!match) return;
+
+      // Asignar valores (match ya no es null/undefined)
+      c.playerId = match.playerId;
       c.amountArmies = match.amountArmies;
       c.countryId = match.countryId;
       c.gameId = match.gameId;
       c.playerName = match.playerName;
       c.color = match.color;
-    })
+    });
 
   }
   getChipStyle(country: MapCountry): { [key: string]: string } {
@@ -143,7 +142,7 @@ export class MapComponent implements OnInit {
     return 3;
   }
 
-  route:String = 'assets/SVGimages/';
+  route: string = 'assets/SVGimages/';
 
   colorFilters: Record<string, string> = {
     'red': 'brightness(0.2) sepia(1) hue-rotate(0deg) saturate(3000%)',
@@ -173,7 +172,7 @@ export class MapComponent implements OnInit {
   _mapCountries : MapCountry[] = [
     //#region South America
     {
-      countryName: Country.CHILE,
+      countryName: Country.CHILI,
       continent: Continent.SOUTH_AMERICA,
       svgPath: this.route + 'America_del_Sur_Chile.svg',
       x: 800,
@@ -189,7 +188,7 @@ export class MapComponent implements OnInit {
       playerName: ''
     },
     {
-      countryName: Country.ARGENTINA,
+      countryName: Country.ARGENTINE,
       continent: Continent.SOUTH_AMERICA,
       svgPath: this.route + 'America_del_Sur_Argentina.svg',
       x: 820,

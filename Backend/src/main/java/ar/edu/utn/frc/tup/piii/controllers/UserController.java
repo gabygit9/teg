@@ -25,46 +25,11 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
+
     public UserController(UserService userService, AuthenticationService authenticationService) {
         this.userService = userService;
         this.authenticationService = authenticationService;
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
-        try {
-            User userCreated = userService.save(user);
-            return ResponseEntity.ok(userCreated);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User dataUpdated) {
-        try {
-            User updated = userService.update(id, dataUpdated);
-            return ResponseEntity.ok(updated);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User credentials) {
-        try {
-            String token = authenticationService.login(credentials.getEmail(), credentials.getPassword());
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body(e.getMessage());
-        }
-    }
-
 
     @GetMapping
     public ResponseEntity<?> getAll() {
@@ -78,6 +43,38 @@ public class UserController {
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(404).body("Usuario con id " + id + " no encontrado");
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        try {
+            User userCreated = userService.save(user);
+            return ResponseEntity.ok(userCreated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User dataUpdated) {
+        try {
+            User updated = userService.update(id, dataUpdated);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User credentials) {
+        try {
+            String token = authenticationService.login(credentials.getEmail(), credentials.getPassword());
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(e.getMessage());
         }
     }
 

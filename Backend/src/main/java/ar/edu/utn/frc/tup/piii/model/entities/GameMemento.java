@@ -31,7 +31,8 @@ public class GameMemento {
     @Column(name = "date_time_memento", nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(name = "state_memento", columnDefinition = "nvarchar(max)", nullable = false)
+    @Lob
+    @Column(name = "state_memento", columnDefinition = "TEXT", nullable = false)
     private String stateSerialized;
 
     @ManyToOne

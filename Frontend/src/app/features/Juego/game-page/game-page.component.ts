@@ -7,15 +7,15 @@ import {InfoPanelComponent} from '../info-panel/info-panel.component';
 import {HistoryComponent} from '../history/history.component';
 import {PlayerGame} from '../../../core/models/interfaces/PlayerGame';
 import {ChatComponent} from '../../lobby/chat/chat.component';
-import {GameDataDTO, CountryGameDTO, PlayerGameDto} from '../../../core/models/interfaces/GameDataDTO';
+import {GameDataDTO, PlayerGameDto} from '../../../core/models/interfaces/GameDataDTO';
 import {AttackDto} from "../../../core/models/interfaces/AttackDto";
 import {GameService} from '../../../core/services/game.service';
-import {CountryGameDTO} from '../../../core/models/interfaces/CountryGame';
 import {ArmyRegroupDTO} from '../../../core/models/interfaces/ArmyRegroupDTO';
 import {Subscription} from 'rxjs';
 import {VictoryPageComponent} from '../victory-page/victory-page.component';
 import {ModalMessageService} from '../../../core/services/modal.service';
 import {RightPanelComponent} from '../right-panel/right-panel.component';
+import {CountryGameDTO} from '../../../core/models/interfaces/CountryGame';
 
 
 @Component({

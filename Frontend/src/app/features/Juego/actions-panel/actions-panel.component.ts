@@ -10,7 +10,6 @@ import {
   OnDestroy, ViewChild,
   OnChanges, SimpleChanges, numberAttribute
 } from '@angular/core';
-import {ObjectiveModalComponent} from '../../objective/objective-modal/objective-modal.component';
 import {ObjectiveService} from '../../../core/services/objective.service';
 import {CommonModule} from '@angular/common';
 import {Router} from '@angular/router';
@@ -40,7 +39,6 @@ import {HistoryService} from '../../../core/services/history.service';
   selector: 'app-actions-panel',
   imports: [
     CommonModule,
-    ObjectiveModalComponent,
     CardsModalComponent,
     PlayerInfoComponent,
     AttackResultComponent,
@@ -72,7 +70,7 @@ export class ActionsPanelComponent implements OnInit, OnDestroy, OnChanges {
 
   activeTurn = false;
   showTurn = true;
-  private lastPlayerIdInTurn: number | undefined = null;
+  private lastPlayerIdInTurn: number | null = null;
   availableActions: string[] = [];
   lastTurnId?: number;
 
@@ -177,7 +175,7 @@ export class ActionsPanelComponent implements OnInit, OnDestroy, OnChanges {
   private verifyTurn() {
     this.playerService.getCurrentPlayerByGame(this.gameId).subscribe({
       next: (playerGame: PlayerGame | undefined) => {
-        const playerTurnId = playerGame?.player.id;
+        const playerTurnId : number | null = playerGame?.player.id ?? null;
 
         this.myPlayer?.id === playerGame?.id ? this.activeTurn = true : this.activeTurn = false;
         this.playerInTurn = playerGame;

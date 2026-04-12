@@ -1,21 +1,19 @@
 <div class="panel-container">
 
-  @if (toastConquer()) {
-    <div class="toast">¡Conquista exitosa!</div>
-  }
+  <div *ngIf="toastConquer()" class="toast">¡Conquista exitosa!</div>
 
-  @if (showTurn) {
-    <div class="turn-modal">
-      <div class="modal-contenido"
-           [ngStyle]="{ borderColor: playerInTurn?.color?.toLowerCase() }">
-        @if (activeTurn) {
-          <p>¡Es tu turn!</p>
-        } @else {
-          <p>Turno: {{ playerInTurn?.player?.name }}</p>
-        }
-      </div>
+  <div *ngIf="showTurn" class="turn-modal">
+    <div class="modal-contenido"
+         [ngStyle]="{ borderColor: playerInTurn?.color?.toLowerCase() }">
+      <ng-container *ngIf="activeTurn; else notYourTurn">
+        <p>¡Es tu turno!</p>
+      </ng-container>
+      <ng-template #notYourTurn>
+        <p>Turno: {{ playerInTurn?.player?.name }}</p>
+      </ng-template>
     </div>
-  }
+  </div>
+
   <div *ngIf="attackMessage" class="message-flotante ataque">
     {{ attackMessage }}
   </div>
@@ -40,42 +38,30 @@
     <button (click)="toggleHistory()">Historial</button>
   </div>
 
-  @if (showModal()) {
-    <app-objective-modal
-      [objective]="objective()!"
-      [achieved]="achieved()"
-      (close)="close_modal()"
-    />
-  }
+  <app-cards-modal *ngIf="showCardModal()"
+    [cards]="playerCards"
+    [gameId]="gameId"
+    [playerId]="myPlayer?.id!"
+    (requestedArmies)="refreshPlayer()"
+    (close)="showCardModal.set(false)"
+  ></app-cards-modal>
 
-  @if (showCardModal()) {
-    <app-cards-modal
-      [cards]="playerCards"
-      [gameId]="gameId"
-      [playerId]="myPlayer?.id!"
-      (requestedArmies)="refreshPlayer()"
-      (close)="showCardModal.set(false)"
-    />
-  }
-
-  <app-player-info [player]="myPlayer"/>
+  <app-player-info [player]="myPlayer"></app-player-info>
 
   <app-attack-result
     [hidden]="!openModalDice()"
     [result]="resultAttack"
     (modalClose)="openModalDice.set(false)"
-  />
+  ></app-attack-result>
 
-  @if (showMenuModal()) {
-    <div class="menu-modal">
-      <div class="panel-menu">
-        <h1 class="menuCenter">Menú de Juego</h1>
-        <button (click)="closeMenuModal()">Volver</button>
-        <button (click)="returnLobby()">Salir al lobby</button>
-        <button (click)="returnLogin()">Salir al inicio de sesión</button>
-        <button (click)="saveGame()">Guardar game</button>
-      </div>
+  <div *ngIf="showMenuModal()" class="menu-modal">
+    <div class="panel-menu">
+      <h1 class="menuCenter">Menú de Juego</h1>
+      <button (click)="closeMenuModal()">Volver</button>
+      <button (click)="returnLobby()">Salir al lobby</button>
+      <button (click)="returnLogin()">Salir al inicio de sesión</button>
+      <button (click)="saveGame()">Guardar juego</button>
     </div>
-  }
+  </div>
 
 </div>

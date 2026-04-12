@@ -20,25 +20,25 @@
       <div class="victory-celebration">
         <div class="crown-icon">👑</div>
         <h1 class="victory-title">
-          <span *ngIf="result?.winner.isCurrentUser" class="victory-text">
+          <span *ngIf="result.winner.isCurrentUser" class="victory-text">
             ¡VICTORIA!
           </span>
-          <span *ngIf="!result?.winner.isCurrentUser" class="defeat-text">
+          <span *ngIf="!result.winner.isCurrentUser" class="defeat-text">
             PARTIDA TERMINADA
           </span>
         </h1>
 
         <div class="winner-info">
-          <div class="winner-avatar" [style.background-color]="getColorHex(result?.winner.color)">
-            {{ result?.winner.name.charAt(0).toUpperCase() }}
+          <div class="winner-avatar" [style.background-color]="getColorHex(result.winner.color)">
+            {{ result.winner.name.charAt(0).toUpperCase() }}
           </div>
-          <h2 class="winner-name">{{ result?.winner.name }}</h2>
-          <p class="winner-achievement">{{ result?.winner.objectiveAchieved }}</p>
+          <h2 class="winner-name">{{ result.winner.name }}</h2>
+          <p class="winner-achievement">{{ result.winner.objectiveAchieved }}</p>
         </div>
 
         <div class="victory-stats">
           <div class="stat-item">
-            <span class="stat-number">{{ result?.winner.countriesConquered }}</span>
+            <span class="stat-number">{{ result.winner.countriesConquered }}</span>
             <span class="stat-label">Países Conquistados</span>
           </div>
           <div class="stat-item">
@@ -46,7 +46,7 @@
             <span class="stat-label">Duración</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">{{ getPercentageWin(result?.winner) }}%</span>
+            <span class="stat-number">{{ getPercentageWin(result.winner) }}%</span>
             <span class="stat-label">Tasa de Victoria</span>
           </div>
         </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="player-details">
               <h3 class="player-name">{{ player.name }}</h3>
-              <p class="player-objective">{{ player.achievedObjective }}</p>
+              <p class="player-objective">{{ player.objectiveAchieved }}</p>
             </div>
           </div>
 
@@ -119,15 +119,15 @@
             </div>
             <div class="stats-item">
               <span class="stats-label">Inicio:</span>
-              <span class="stats-value">{{ formatDuration(result?.startDate) }}</span>
+              <span class="stats-value">{{ formatDuration(result.startDate) }}</span>
             </div>
             <div class="stats-item">
               <span class="stats-label">Fin:</span>
-              <span class="stats-value">{{ formatDuration(result?.finishDate) }}</span>
+              <span class="stats-value">{{ formatDuration(result.finishDate) }}</span>
             </div>
             <div class="stats-item">
               <span class="stats-label">Duración total:</span>
-              <span class="stats-value">{{ result?.totalDuration }}</span>
+              <span class="stats-value">{{ result.totalDuration }}</span>
             </div>
           </div>
         </div>
@@ -138,21 +138,21 @@
           <div class="stats-list">
             <div class="stats-item">
               <span class="stats-label">Total de batallas:</span>
-              <span class="stats-value">{{ result?.generalStatistics.totalBattles }}</span>
+              <span class="stats-value">{{ result.generalStatistics.totalBattles }}</span>
             </div>
             <div class="stats-item">
               <span class="stats-label">País más disputado:</span>
-              <span class="stats-value">{{ result?.generalStatistics.mostDisputedCountry }}</span>
+              <span class="stats-value">{{ result.generalStatistics.mostDisputedCountry }}</span>
             </div>
             <div class="stats-item">
               <span class="stats-label">Mayor conquista:</span>
-              <span class="stats-value">{{ result?.generalStatistics.greatestConquest }}</span>
+              <span class="stats-value">{{ result.generalStatistics.greatestConquest }}</span>
             </div>
           </div>
         </div>
 
         <!-- Estadísticas Personales -->
-        <div class="stats-card" *ngIf="result?.winner.isCurrentUser">
+        <div class="stats-card" *ngIf="result.winner.isCurrentUser">
           <h3>Tus Logros</h3>
           <div class="achievements">
             <div class="achievement">
@@ -161,13 +161,13 @@
             </div>
             <div class="achievement">
               <span class="achievement-icon">⚔️</span>
-              <span class="achievement-text">{{ result?.winner.battlesWon }} Batallas Ganadas</span>
+              <span class="achievement-text">{{ result.winner.battlesWon }} Batallas Ganadas</span>
             </div>
             <div class="achievement">
               <span class="achievement-icon">🎯</span>
               <span class="achievement-text">Objetivo Cumplido</span>
             </div>
-            <div class="achievement" *ngIf="result?.generalStatistics.quickGame">
+            <div class="achievement" *ngIf="result.generalStatistics.quickGame">
               <span class="achievement-icon">⚡</span>
               <span class="achievement-text">Victoria Rápida</span>
             </div>

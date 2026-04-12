@@ -1,6 +1,4 @@
-import {Color} from '../../enums/color';
-import {Objective} from './Objective';
-import {Player} from './Player';
+import { CountryGameDTO } from './CountryGame';
 
 export interface GameDataDTO {
   game: GameResponseDTO;
@@ -23,18 +21,6 @@ export interface PlayerGameDto {
   isHuman: boolean;
   deleted: boolean;
   isTurn: boolean;
-}
-
-
-export interface CountryGameDTO {
-  countryId: number;
-  gameId: number;
-  countryName: string;
-  continent: string;
-  amountArmy: number;
-  playerId: number;
-  playerName: string;
-  color: string;
 }
 
 export interface ObjectiveDto {
