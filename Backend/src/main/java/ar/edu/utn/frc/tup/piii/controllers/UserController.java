@@ -36,16 +36,6 @@ public class UserController {
         return ResponseEntity.ok(userService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
-        User user = userService.findById(id.intValue());
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(404).body("Usuario con id " + id + " no encontrado");
-        }
-    }
-
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
@@ -53,6 +43,16 @@ public class UserController {
             return ResponseEntity.ok(userCreated);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        User user = userService.findById(id.intValue());
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(404).body("Usuario con id " + id + " no encontrado");
         }
     }
 

@@ -5,6 +5,7 @@ import ar.edu.utn.frc.tup.piii.model.entities.User;
 import ar.edu.utn.frc.tup.piii.model.repository.RoleRepository;
 import ar.edu.utn.frc.tup.piii.model.repository.UserRepository;
 import ar.edu.utn.frc.tup.piii.services.interfaces.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
     }
 
+    @Transactional
     @Override
     public User save(User user) {
         // Verifica que no esté registrado el email
@@ -61,7 +63,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("La contraseña debe tener al menos 6 carácteres");
         }
         // Asigna rol número 2 (jugador) si no viene seteado
-        if (user.getRole() == null) {
+        if (user.getRole() == null || user.getRole().getId() == null) {
             Role deffaultRole = roleRepository.findById(2)
                     .orElseThrow(() -> new IllegalArgumentException("Rol por defecto no encontrado"));
             user.setRole(deffaultRole);
