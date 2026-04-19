@@ -148,16 +148,18 @@ form ng-container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .form-component label {
   font-size: 0.9rem;
   color: #d1b88e;
-  font-weight: 500;
+  font-weight: 600;
   text-align: left;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  display: block;
 }
 
 .form-input {
@@ -170,6 +172,8 @@ form ng-container {
   color: #ffffff;
   font-family: 'Montserrat', sans-serif;
   transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-input::placeholder {
@@ -311,6 +315,20 @@ form > .form-button-container {
   background: radial-gradient(circle at center, #a00000 0%, #500000 100%);
   transform: translateY(-2px);
   box-shadow: 0 15px 25px rgba(0,0,0,0.6);
+}
+
+/* --- BOTÓN DESHABILITADO --- */
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: radial-gradient(circle at center, #6b6015 0%, #5a5910 100%);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.4);
 }
 
 /* ==========================================================================

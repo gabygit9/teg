@@ -44,9 +44,20 @@ export class UpdateComponent implements OnInit, OnDestroy {
 
     try {
       const decoded: any = jwtDecode(token);
+      console.log('Token decodificado:', decoded); // Debug: ver qué contiene el token
+
       this.userId = decoded.id;
+
+      // Asignar al placeholder
       this.namePlaceholder = decoded.nombre || '';
       this.emailPlaceholder = decoded.sub || '';
+
+      // IMPORTANTE: También asignar a userModel para que se vea en los inputs
+      this.userModel.name = decoded.nombre || '';
+      this.userModel.email = decoded.sub || '';
+
+      console.log('namePlaceholder:', this.namePlaceholder); // Debug
+      console.log('emailPlaceholder:', this.emailPlaceholder); // Debug
     } catch (error) {
       alert('Error con el token. Iniciá sesión nuevamente.');
       this.router.navigate(['/login']);
@@ -59,11 +70,24 @@ export class UpdateComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const userDTO = {
-      name: this.userModel.name,
-      email: this.userModel.email,
-      password: this.userModel.password
-    };
+    // Validar que al menos uno de los campos fue modificado
+    if (!this.userModel.name && !this.userModel.email && !this.userModel.password) {
+      alert('Debes cambiar al menos uno de tus datos');
+      return;
+    }
+
+    // Construir el DTO solo con los campos que fueron modificados
+    const userDTO: any = {};
+
+    if (this.userModel.name) {
+      userDTO.name = this.userModel.name;
+    }
+    if (this.userModel.email) {
+      userDTO.email = this.userModel.email;
+    }
+    if (this.userModel.password) {
+      userDTO.password = this.userModel.password;
+    }
 
     if (this.userId === null) {
       alert('Usuario no identificado.');
@@ -78,7 +102,13 @@ export class UpdateComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error en update:', err);
-        alert('Error al actualizar los datos.');
+        console.error('Status:', err.status);
+        console.error('Message:', err.message);
+        console.error('Error response:', err.error);
+
+        // Mostrar el error específico del backend
+        const errorMessage = err.error?.message || err.error?.error || 'Error al actualizar los datos.';
+        alert(`Error: ${errorMessage}`);
       }
     });
   }

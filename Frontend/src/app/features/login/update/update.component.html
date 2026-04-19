@@ -9,8 +9,12 @@
   <form #register="ngForm" (ngSubmit)="onSubmit(register)">
 
     <div class="form-component">
-      <input class="form-input" name="nombre" type="text"
-             placeholder="{{ namePlaceholder }}"
+      <label for="name">Nombre de Usuario</label>
+      <input class="form-input"
+             id="name"
+             name="name"
+             type="text"
+             [placeholder]="namePlaceholder || 'ej: Juan García'"
              #loginName="ngModel"
              minlength="3"
              maxlength="20"
@@ -18,19 +22,25 @@
       >
       @if (loginName.getError("minlength") && (loginName.dirty || loginName.touched)) {
         <div class="error-message">
-          ¡El mínimo de caracteres es 3!
+          <span class="error-icon">⚠️</span>
+          El nombre debe tener al menos 3 caracteres
         </div>
       }
       @if (loginName.getError("maxlength") && (loginName.dirty || loginName.touched)) {
         <div class="error-message">
-          ¡El máximo de caracteres es 20!
+          <span class="error-icon">⚠️</span>
+          El nombre no puede superar los 20 caracteres
         </div>
       }
     </div>
 
     <div class="form-component">
-      <input class="form-input" name="email" type="email"
-             placeholder="{{ emailPlaceholder }}"
+      <label for="email">Correo Electrónico</label>
+      <input class="form-input"
+             id="email"
+             name="email"
+             type="email"
+             [placeholder]="emailPlaceholder || 'ej: usuario@example.com'"
              #loginEmail="ngModel"
              minlength="10"
              maxlength="30"
@@ -39,24 +49,31 @@
       >
       @if (loginEmail.getError("email") && (loginEmail.dirty || loginEmail.touched)){
         <div class="error-message">
-          ¡Debe ingresar un email válido!
+          <span class="error-icon">⚠️</span>
+          Por favor, ingresa un correo válido
         </div>
       }
       @if (loginEmail.getError("minlength") && (loginEmail.dirty || loginEmail.touched)){
         <div class="error-message">
-          ¡El mínimo de caracteres es 10!
+          <span class="error-icon">⚠️</span>
+          El correo debe tener al menos 10 caracteres
         </div>
       }
       @if (loginEmail.getError("maxlength") && (loginEmail.dirty || loginEmail.touched)){
         <div class="error-message">
-          ¡El máximo de caracteres es 30!
+          <span class="error-icon">⚠️</span>
+          El correo no puede superar los 30 caracteres
         </div>
       }
     </div>
 
     <div class="form-component">
-      <input class="form-input" name="password" type="password"
-             placeholder="Ingrese su nueva contraseña"
+      <label for="password">Nueva Contraseña</label>
+      <input class="form-input"
+             id="password"
+             name="password"
+             type="password"
+             placeholder="Mínimo 6 caracteres"
              #loginPassword="ngModel"
              minlength="6"
              maxlength="20"
@@ -64,20 +81,24 @@
       >
       @if (loginPassword.getError("minlength") && (loginPassword.dirty || loginPassword.touched)){
         <div class="error-message">
-          ¡El mínimo de caracteres es 6!
+          <span class="error-icon">⚠️</span>
+          La contraseña debe tener al menos 6 caracteres
         </div>
       } @else if (loginPassword.getError("maxlength") && (loginPassword.dirty || loginPassword.touched)){
         <div class="error-message">
-          ¡El máximo de caracteres es 20!
+          <span class="error-icon">⚠️</span>
+          La contraseña no puede superar los 20 caracteres
         </div>
       }
-
-
     </div>
 
     <div class="form-component">
-      <input class="form-input" name="confirmPassword" type="password"
-             placeholder="Confirme su nueva contraseña"
+      <label for="confirmPassword">Confirmar Contraseña</label>
+      <input class="form-input"
+             id="confirmPassword"
+             name="confirmPassword"
+             type="password"
+             placeholder="Repite tu nueva contraseña"
              #confirmPassword="ngModel"
              minlength="6"
              maxlength="20"
@@ -85,12 +106,14 @@
       >
       @if (confirmPassword.getError("minlength") && (confirmPassword.dirty || confirmPassword.touched)) {
         <div class="error-message">
-          ¡El mínimo de caracteres es 6!
+          <span class="error-icon">⚠️</span>
+          La confirmación debe tener al menos 6 caracteres
         </div>
       }
       @if (confirmPassword.getError("maxlength") && (confirmPassword.dirty || confirmPassword.touched)) {
         <div class="error-message">
-            ¡El máximo de caracteres es 20!
+          <span class="error-icon">⚠️</span>
+          La confirmación no puede superar los 20 caracteres
         </div>
       }
     </div>
