@@ -18,7 +18,7 @@
     @for (player of players; track $index) {
       <div class="jugador-item">
         <span class="color-icon" [style.background-color]="player.colorCSS"></span>
-        @if (playerInTurn && player.name === playerInTurn.player?.name) {
+        @if (playerInTurn && player.name === playerInTurn.player.name) {
           <span style="color: yellow;font-weight: bold;" class="jugador-nombre">{{ player.name }}</span>
         } @else {
           <span class="jugador-nombre">{{ player.name }}</span>

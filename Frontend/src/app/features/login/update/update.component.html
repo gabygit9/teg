@@ -16,12 +16,16 @@
              maxlength="20"
              [(ngModel)]="userModel.name"
       >
-      <div *ngIf="loginName.errors?.minlength && (loginName.dirty || loginName.touched)" class="error-message">
-        ¡El mínimo de caracteres es 3!
-      </div>
-      <div *ngIf="loginName.errors?.maxlength && (loginName.dirty || loginName.touched)" class="error-message">
-        ¡El máximo de caracteres es 20!
-      </div>
+      @if (loginName.getError("minlength") && (loginName.dirty || loginName.touched)) {
+        <div class="error-message">
+          ¡El mínimo de caracteres es 3!
+        </div>
+      }
+      @if (loginName.getError("maxlength") && (loginName.dirty || loginName.touched)) {
+        <div class="error-message">
+          ¡El máximo de caracteres es 20!
+        </div>
+      }
     </div>
 
     <div class="form-component">
@@ -33,15 +37,21 @@
              email
              [(ngModel)]="userModel.email"
       >
-      <div *ngIf="loginEmail.errors?.email && (loginEmail.dirty || loginEmail.touched)" class="error-message">
-        ¡Debe ingresar un email válido!
-      </div>
-      <div *ngIf="loginEmail.errors?.minlength && (loginEmail.dirty || loginEmail.touched)" class="error-message">
-        ¡El mínimo de caracteres es 10!
-      </div>
-      <div *ngIf="loginEmail.errors?.maxlength && (loginEmail.dirty || loginEmail.touched)" class="error-message">
-        ¡El máximo de caracteres es 30!
-      </div>
+      @if (loginEmail.getError("email") && (loginEmail.dirty || loginEmail.touched)){
+        <div class="error-message">
+          ¡Debe ingresar un email válido!
+        </div>
+      }
+      @if (loginEmail.getError("minlength") && (loginEmail.dirty || loginEmail.touched)){
+        <div class="error-message">
+          ¡El mínimo de caracteres es 10!
+        </div>
+      }
+      @if (loginEmail.getError("maxlength") && (loginEmail.dirty || loginEmail.touched)){
+        <div class="error-message">
+          ¡El máximo de caracteres es 30!
+        </div>
+      }
     </div>
 
     <div class="form-component">
@@ -52,12 +62,17 @@
              maxlength="20"
              [(ngModel)]="userModel.password"
       >
-      <div *ngIf="loginPassword.errors?.minlength && (loginPassword.dirty || loginPassword.touched)" class="error-message">
-        ¡El mínimo de caracteres es 6!
-      </div>
-      <div *ngIf="loginPassword.errors?.maxlength && (loginPassword.dirty || loginPassword.touched)" class="error-message">
-        ¡El máximo de caracteres es 20!
-      </div>
+      @if (loginPassword.getError("minlength") && (loginPassword.dirty || loginPassword.touched)){
+        <div class="error-message">
+          ¡El mínimo de caracteres es 6!
+        </div>
+      } @else if (loginPassword.getError("maxlength") && (loginPassword.dirty || loginPassword.touched)){
+        <div class="error-message">
+          ¡El máximo de caracteres es 20!
+        </div>
+      }
+
+
     </div>
 
     <div class="form-component">

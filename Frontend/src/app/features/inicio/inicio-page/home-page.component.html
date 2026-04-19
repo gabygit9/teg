@@ -1,194 +1,47 @@
-<!-- src/app/features/inicio/inicio-page/inicio-page.component.html -->
 <div class="inicio-container">
-
-  <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-content">
 
-      <!-- Logo y Título Principal -->
       <div class="logo-section">
-        <img
-          src="/assets/pagesImages/logo-teg.png"
-          alt="TEG Logo"
-          class="main-logo"
-        >
-        <h1 class="main-title">TÁCTICA Y ESTRATEGIA DE LA GUERRA</h1>
-        <p class="main-subtitle">El clásico juego de estrategia ahora en digital</p>
+        <img src="/assets/pagesImages/logo-teg.png" alt="TEG Logo" class="main-logo" />
       </div>
 
-      <!-- Acciones Principales -->
-      <div class="action-buttons">
+      <h1 class="main-title">TÁCTICA Y ESTRATEGIA DE LA GUERRA</h1>
+
+      <div class="actions-wrapper">
         @if (isLogged) {
           <div class="user-welcome">
-            <h2>¡Bienvenido de nuevo, {{ userName }}!</h2>
-            <button class="btn btn-primary" (click)="goLobby()">
-              <span class="btn-icon">🎮</span>
-              Continuar Jugando
-            </button>
-            <button class="btn btn-primary" (click)="logOut()" style="margin-left: 10px;">
-              <span class="btn-icon">🔒</span>
-              Cerrar Sesión
-            </button>
+            <h2>¡Bienvenido de nuevo, <span class="user-name">{{ userName }}</span>!</h2>
+
+            <div class="hero-buttons">
+              <button class="btn-teg btn-continuar" (click)="goLobby()">
+                <i class="fa-solid fa-play btn-icon"></i>
+                <span class="btn-text">Continuar Jugando</span>
+              </button>
+
+              <button class="btn-teg btn-cerrar-sesion" (click)="logOut()">
+                <i class="fa-solid fa-right-from-bracket btn-icon"></i>
+                <span class="btn-text">Cerrar Sesión</span>
+              </button>
+            </div>
           </div>
         } @else {
           <div class="guest-actions">
-            <button class="btn btn-primary" (click)="goLogin()">
-              <span class="btn-icon">🚀</span>
-              Iniciar Sesión
-            </button>
-            <button class="btn btn-secondary" (click)="goRegistry()">
-              <span class="btn-icon">📝</span>
-              Crear Cuenta
-            </button>
+            <div class="hero-buttons">
+              <button class="btn-teg btn-continuar" (click)="goLogin()">
+                <i class="fa-solid fa-right-to-bracket btn-icon"></i>
+                <span class="btn-text">Iniciar Sesión</span>
+              </button>
 
+              <button class="btn-teg btn-cerrar-sesion" (click)="goRegistry()">
+                <i class="fa-solid fa-user-plus btn-icon"></i>
+                <span class="btn-text">Crear Cuenta</span>
+              </button>
+            </div>
           </div>
         }
       </div>
 
     </div>
-
-    <!-- Decoración de fondo -->
-    <div class="hero-decoration">
-      <div class="floating-element element-1"></div>
-      <div class="floating-element element-2"></div>
-      <div class="floating-element element-3"></div>
-    </div>
   </section>
-
-  <!-- Sección de Características del Juego -->
-  <section class="features-section">
-    <div class="container">
-      <h2 class="section-title">¿Por qué jugar TEG Digital?</h2>
-
-      <div class="features-grid">
-
-        <div class="feature-card">
-          <div class="feature-icon">🗺️</div>
-          <h3>Mapa Interactivo</h3>
-          <p>Explora y conquista 50 países distribuidos en 6 continentes con un mapa completamente interactivo.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3>Multijugador</h3>
-          <p>Juega con amigos o contra bots inteligentes en games de 3 a 6 jugadores.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🎯</div>
-          <h3>Objetivos Secretos</h3>
-          <p>Cada jugador tiene un objective secreto único que debe cumplir para ganar la game.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">💾</div>
-          <h3>Guardar Partidas</h3>
-          <p>Guarda tu progreso y continúa tus campañas de conquista mundial cuando quieras.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🎲</div>
-          <h3>Sistema de Combate</h3>
-          <p>Batallas épicas con sistema de dados realista que combina estrategia y suerte.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🏆</div>
-          <h3>Estadísticas</h3>
-          <p>Lleva registro de tus victorias, países conquistados y estrategias más exitosas.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Sección de Reglas Básicas -->
-  <section class="rules-section">
-    <div class="container">
-      <h2 class="section-title">¿Cómo se Juega?</h2>
-
-      <div class="rules-content">
-        <div class="rules-steps">
-
-          <div class="rule-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <h4>Preparación</h4>
-              <p>Cada jugador recibe países al azar y un objective secreto que debe cumplir para ganar.</p>
-            </div>
-          </div>
-
-          <div class="rule-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <h4>Incorporación</h4>
-              <p>Al inicio de cada turn, recibes ejércitos según los países y continentes que controles.</p>
-            </div>
-          </div>
-
-          <div class="rule-step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <h4>Ataque</h4>
-              <p>Ataca países enemigos adyacentes usando dados. ¡La estrategia y la suerte determinarán el resultado!</p>
-            </div>
-          </div>
-
-          <div class="rule-step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <h4>Victoria</h4>
-              <p>El primer jugador en cumplir su objective secreto gana la game. ¡Puede ser conquista total o objectives específicos!</p>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="rules-image">
-          <img
-            src="/assets/images/map.jpg"
-            alt="Mapa TEG"
-            class="map-preview"
-          >
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Call to Action Final -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-content">
-        <h2>¿Listo para Conquistar el Mundo?</h2>
-        <p>Únete a miles de jugadores en épicas batallas de estrategia</p>
-
-        @if (!isLogged) {
-          <div class="cta-buttons">
-            <button class="btn btn-primary btn-large" (click)="goRegistry()">
-              <span class="btn-icon">⚔️</span>
-              ¡Comenzar Ahora!
-            </button>
-            <button class="btn btn-outline btn-large" (click)="goLogin()">
-              Ya tengo cuenta
-            </button>
-          </div>
-        } @else {
-          <button class="btn btn-primary btn-large" (click)="goLobby()">
-            <span class="btn-icon">🎮</span>
-            ¡Ir al Lobby!
-          </button>
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 TEG Digital - UTN FRC - Programación III</p>
-      <p>Trabajo Práctico Integrador</p>
-    </div>
-  </footer>
-
 </div>
-

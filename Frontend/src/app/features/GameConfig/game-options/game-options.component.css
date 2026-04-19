@@ -1,135 +1,162 @@
-.game-config-container {
-  height: 100vh;
+/* Reemplazo completo: nuevo diseño fotorrealista según especificaciones del usuario */
+
+/* --- 1. OVERLAY DE FONDO --- */
+.main-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); /* Capa de oscurecimiento fotorrealista */
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: larger;
+  align-items: center;
+  z-index: 999;
 }
 
-.main {
-  padding: 1% 5%;
-  color: var(--text-color);
-  background: rgba(64, 64, 64, 0.85); /* keep translucent overlay but text uses theme */
+/* --- 2. TARJETA CENTRAL (Efecto Vidrio Premium) --- */
+.central-card {
+  background: rgba(255, 255, 255, 0.05); /* Fondo muy sutil y claro */
+  backdrop-filter: blur(15px); /* Efecto de desenfoque de fondo fotorrealista */
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 215, 0, 0.15); /* Borde dorado tenue fotorrealista */
   border-radius: 20px;
-  width: 60%;
-  height: 90%;
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  font-size: 300%;
+  padding: 50px;
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.6); /* Sombra proyectada profunda */
+  width: 900px;
+  max-width: calc(100vw - 40px);
   text-align: center;
+  color: #f3efe6;
+  position: relative;
+  overflow: hidden;
 }
 
-.lane {
-  background-color: rgba(255,255,255,0.06); /* subtle line using theme light */
-  height: 2px;
+/* Decoración sutil: rayos y textura metálica muy tenue */
+.central-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  pointer-events: none;
 }
 
-.title-config {
-  margin-bottom: 5%;
+/* --- 3. TÍTULO PRINCIPAL (Efecto Metal Fundido 3D) --- */
+.main-title {
+  font-family: 'Stencil', sans-serif; /* Fuente militar/stencil pesada */
+  text-transform: uppercase;
+  font-size: 40px;
+  margin: 10px 0 8px 0;
+  background: linear-gradient(to bottom, #cf9d1d 0%, #ffdb71 50%, #8b6b15 100%); /* Degradado metálico fotorrealista */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.8)); /* Sombra profunda para relieve 3D */
+  letter-spacing: 4px;
 }
 
-.player-options {
+/* Soporte para navegadores que no clippean el texto con el fondo */
+.main-title.fallback {
+  color: #cf9d1d;
+  text-shadow: 1px 2px 0 rgba(0,0,0,0.6), 0 6px 22px rgba(0,0,0,0.5);
+}
+
+/* --- 4. TEXTOS SECUNDARIOS --- */
+.subtitle {
+  font-family: 'Montserrat', sans-serif; /* Fuente limpia y moderna */
+  color: #d1b88e; /* Color ocre tenue y elegante */
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.welcome-message {
+  font-family: 'Montserrat', sans-serif;
+  color: #f0f0f0; /* Color blanco sucio elegante */
+  font-size: 16px;
+}
+
+.welcome-message .username {
+  font-weight: bold;
+  color: #ffffff; /* Nombre en blanco puro */
+}
+
+.logo-container {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 18px auto;
+  border-radius: 50%;
+  background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 20%), url('/assets/images/map.jpg');
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 4px 10px rgba(255,255,255,0.02), 0 8px 24px rgba(0,0,0,0.6);
+  border: 2px solid rgba(255,215,0,0.08);
+}
+
+/* --- 5. BOTONES PREMIUM METÁLICOS --- */
+.button-container {
   display: flex;
-  gap: 20%;
-  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
 }
 
-.players-size {
-  display: flex;
+/* Estilo Base de Ambos Botones */
+.btn-continuar, .btn-cerrar-sesion {
+  border: 2px solid rgba(0, 0, 0, 0.5); /* Borde de bisel fotorrealista */
+  border-radius: 10px;
+  padding: 15px 30px;
+  font-weight: bold;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* Sombra proyectada fotorrealista */
+  color: #fff;
+  transition: all 0.3s ease;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-top: 15px;
-  justify-content: center;
-}
-
-.btn-plyr-size {
-  padding: 2.5% 4.5%;
-  font-size: medium;
-}
-
-.btn-plyr-size:disabled {
-  transition: 0s;
-  background-color: rgba(255,255,255,0.07);
-}
-
-.color-container {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  gap: 10%;
-}
-
-.color-option {
-  display: flex;
-  flex-direction: column;
-}
-
-.color-selection {
-  height: 50%;
-}
-
-.color-selection:hover {
-  height: 70%;
-}
-
-.bot-players {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10%;
-  padding-bottom: 10%;
-  max-height: 10%;
-}
-
-.bot-difficulty {
-  height: 60%;
-}
-
-.bot-difficulty:hover {
-  height: 80%;
-}
-
-.bot-player {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 10px;
-  margin-left:10px;
-}
-
-.actions-butons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4%;
-}
-
-.action-btn {
-  padding: 2%;
-}
-
-button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 6px;
   cursor: pointer;
-  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+  user-select: none;
 }
 
-select {
-  color: var(--text-color);
-  appearance: none;
-  text-align: center;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: height 0.3s;
-  background-color: rgba(255,255,255,0.03);
+/* Efecto de Relieve 3D en Hover para Ambos Botones */
+.btn-continuar:hover, .btn-cerrar-sesion:hover {
+  transform: translateY(-3px); /* Movimiento físico fotorrealista */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
 }
 
-button:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.05);
+/* Botón Continuar (Efecto Latón/Oro Viejo Castrense) */
+.btn-continuar {
+  background: linear-gradient(to bottom, #8b6b15 0%, #cf9d1d 50%, #4f3c0c 100%); /* Degradado de metal fundido fotorrealista */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Texto grabado fotorrealista */
+}
+
+/* Botón Cerrar Sesión (Efecto Hierro Pavonado/Borravino Profundo) */
+.btn-cerrar-sesion {
+  background: linear-gradient(to bottom, #600000 0%, #900000 50%, #300000 100%); /* Degradado de metal forjado fotorrealista */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Texto grabado fotorrealista */
+}
+
+/* Accesibilidad: focus states */
+.btn-continuar:focus, .btn-cerrar-sesion:focus {
+  outline: 3px solid rgba(255, 215, 0, 0.15);
+  outline-offset: 3px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .central-card {
+    padding: 28px;
+    width: calc(100vw - 24px);
+  }
+  .main-title {
+    font-size: 22px;
+    letter-spacing: 2px;
+  }
+  .logo-container {
+    width: 96px;
+    height: 96px;
+  }
+  .btn-continuar, .btn-cerrar-sesion {
+    padding: 12px 18px;
+    width: 100%;
+    justify-content: center;
+  }
+  .button-container { gap: 12px; flex-direction: column; }
 }
