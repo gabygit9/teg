@@ -21,7 +21,7 @@
 
 
     <div class="botones">
-      <button class="btn" (click)="goToTheMap()">Cargar Partida</button>
+      <button class="btn" (click)="goToTheMap()" [disabled]="!selectedGameId || games.length === 0" [class.btn-disabled]="!selectedGameId || games.length === 0">Cargar Partida</button>
       <button class="btn" (click)="loadGameConfig()">Crear Nueva Partida</button>
       <button class="btn" (click)="goLogin()">Volver al Login</button>
       <button class="btn" (click)="goHome()">Volver al Inicio</button>
