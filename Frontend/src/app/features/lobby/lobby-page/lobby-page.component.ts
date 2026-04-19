@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SavedGames} from '../../../core/models/interfaces/SavedGames';
 import {MementoService} from '../../../core/services/memento.service';
-import {NgForOf} from '@angular/common';
 import {ModalMessageService} from '../../../core/services/modal.service';
 
 
@@ -30,6 +29,7 @@ export class LobbyPageComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar partidas guardadas:', err);
+        this.modalService.error('No se pudieron cargar las partidas guardadas', 'Error al cargar');
       }
     });
   }
@@ -42,21 +42,17 @@ export class LobbyPageComponent implements OnInit {
     }
   }
 
-  // en modo debug
   goToTheMap() {
     if (this.selectedGameId === null) {
-      alert("Por favor, seleccione una partida primero.");
+      this.modalService.info('Por favor, selecciona una partida para cargar', 'Partida requerida');
       return;
     }
 
     this.mementoService.getLastState(this.selectedGameId).subscribe({
       next: (lastMemento) => {
-        console.log('Ultimo memento recibido:', lastMemento);
-
         const mementoId = lastMemento.mementoId;
         if (!mementoId) {
-          // alert('No se encontró el id del memento para esta partida');
-          this.modalService.modalMessage('No se encontró el id del memento para esta partida.', 'Partida');
+          this.modalService.error('No se encontró el estado de la partida', 'Error de carga');
           return;
         }
 
@@ -64,25 +60,23 @@ export class LobbyPageComponent implements OnInit {
           next: (restoredState) => {
             sessionStorage.setItem('estadoRestored', JSON.stringify(restoredState));
             sessionStorage.setItem('selectedGameId', this.selectedGameId!.toString());
-            this.router.navigate(['/game']);
+            this.modalService.success('Cargando partida...', 'Listo');
+            setTimeout(() => {
+              this.router.navigate(['/game']);
+            }, 500);
           },
           error: (err) => {
             console.error('Error al restaurar memento:', err);
-            // alert('No se pudo restaurar la partida guardada.');
-            this.modalService.modalMessage('No se pudo restaurar la partida guardada.', 'Partida');
-
+            this.modalService.error('No se pudo restaurar la partida guardada', 'Error al cargar');
           }
         });
       },
       error: (err) => {
         console.error('Error al obtener el último memento:', err);
-        // alert('No se pudo obtener el último estado guardado.');
-        this.modalService.modalMessage('No se pudo obtener el último estado guardado.', 'Partida');
-
+        this.modalService.error('No se pudo obtener el estado guardado', 'Error al cargar');
       }
     });
   }
-
 
   loadGameConfig() {
     this.router.navigate(['/game-config']);
@@ -92,16 +86,7 @@ export class LobbyPageComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  goLoadGames() {
-    this.router.navigate(['/load-games']);
-  }
-
-  goVictory() {
-    this.router.navigate(['/victory'], {queryParams: {gameId: 1}});
-  }
-
   goHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 }
-

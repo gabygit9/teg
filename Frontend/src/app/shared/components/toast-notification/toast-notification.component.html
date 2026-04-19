@@ -1,0 +1,15 @@
+<div class="toast-container">
+  @for (toast of toasts; track toast.id) {
+    <div class="toast" [class]="'toast-' + toast.type">
+      <div class="toast-content">
+        <div class="toast-header">
+          <span class="toast-icon">{{ getIcon(toast.type) }}</span>
+          <span class="toast-title">{{ toast.title }}</span>
+          <button class="toast-close" (click)="removeToast(toast.id)">×</button>
+        </div>
+        <p class="toast-message">{{ toast.message }}</p>
+      </div>
+      <div class="toast-progress" [style.animation]="'progress ' + (toast.duration || 3000) + 'ms linear forwards'"></div>
+    </div>
+  }
+</div>

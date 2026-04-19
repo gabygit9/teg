@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ModalMessageService } from '../../core/services/modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-modal-message',
   templateUrl: './modal-message.component.html',
-  styleUrls: ['./modal-message.component.css'] // corregí styleUrls
+  styleUrls: ['./modal-message.component.css']
 })
-export class ModalMessageComponent implements OnInit {
+export class ModalMessageComponent implements OnDestroy {
   showModal = false;
   message = '';
   title = '';
+  private subscription: Subscription | null = null;
 
   constructor(private modalService: ModalMessageService) {}
 
-  ngOnInit(): void {
-    this.modalService.message$.subscribe(data => {
-      if (data) {
-        this.message = data.message;
-        this.title = data.title ?? '';
-        this.showModal = true;
-      } else {
-        this.showModal = false;
-      }
-    });
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   closeModal() {

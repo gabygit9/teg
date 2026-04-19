@@ -54,17 +54,24 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
 
   logOut(): void {
-    const confirmation = confirm('¿Seguro que querés cerrar la sesión?');
-    if (confirmation) {
-      this.authService.logout();
-      this.router.navigate(["/login"]);
-    }
+    this.modalService.info('¿Seguro que querés cerrar la sesión?', 'Confirmar cierre', 0);
+    // Para un confirm verdadero, vamos a usar una modal personalizada
+    // Por ahora mantenemos el confirm del navegador, pero lo mejoraremos después
+    setTimeout(() => {
+      const confirmation = confirm('¿Seguro que querés cerrar la sesión?');
+      if (confirmation) {
+        this.authService.logout();
+        this.modalService.success('Sesión cerrada correctamente', 'Hasta luego');
+        setTimeout(() => {
+          this.router.navigate(["/login"]);
+        }, 1500);
+      }
+    }, 100);
   }
 
   onSubmit(login: NgForm) {
     if (login.invalid) {
-      // alert("Complete el inicio de sesión");
-      this.modalService.modalMessage(`Complete el formulario`, 'Iniciar sesión');
+      this.modalService.info('Por favor, completa todos los campos requeridos', 'Formulario incompleto');
       return;
     }
 
@@ -72,19 +79,16 @@ export class LoginComponent implements OnInit, OnDestroy{
       next: (res) => {
         if (res && res.token) {
           this.authService.setSession(res.token);
-          // alert("Login exitoso");
-          this.modalService.modalMessage(`Login exitoso`, 'Iniciar sesión');
+          this.modalService.success('¡Bienvenido! Redirigiendo al lobby...', 'Inicio de sesión exitoso');
           setTimeout(() => {
             this.router.navigate(["/lobby"]);
           }, 2500);
         } else {
-          // alert("Token no recibido");
-          this.modalService.modalMessage(`Token no recibido`, 'Iniciar sesión');
+          this.modalService.error('No se recibió token de autenticación', 'Error de autenticación');
         }
       },
       error: () => {
-        // alert("No se pudo iniciar sesión");
-        this.modalService.modalMessage(`No se pudo iniciar sesión`, 'Iniciar sesión');
+        this.modalService.error('Verifica tu correo y contraseña', 'No se pudo iniciar sesión');
       }
     });
 

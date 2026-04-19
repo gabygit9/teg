@@ -3,6 +3,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
+import { ModalMessageService } from '../../../core/services/modal.service';
 import { Subscription } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
@@ -20,6 +21,7 @@ import { jwtDecode } from 'jwt-decode';
 export class UpdateComponent implements OnInit, OnDestroy {
   router: Router = inject(Router);
   authService: AuthService = inject(AuthService);
+  modalService: ModalMessageService = inject(ModalMessageService);
   subscription: Subscription = new Subscription();
 
   userModel = {
@@ -37,48 +39,37 @@ export class UpdateComponent implements OnInit, OnDestroy {
     const token = this.authService.getToken();
 
     if (!token) {
-      alert('Debes iniciar sesión para actualizar tus datos.');
+      this.modalService.info('Debes iniciar sesión para actualizar tus datos', 'Acceso requerido');
       this.router.navigate(['/login']);
       return;
     }
 
     try {
       const decoded: any = jwtDecode(token);
-      console.log('Token decodificado:', decoded); // Debug: ver qué contiene el token
 
       this.userId = decoded.id;
-
-      // Asignar al placeholder
       this.namePlaceholder = decoded.nombre || '';
       this.emailPlaceholder = decoded.sub || '';
-
-      // IMPORTANTE: También asignar a userModel para que se vea en los inputs
       this.userModel.name = decoded.nombre || '';
       this.userModel.email = decoded.sub || '';
-
-      console.log('namePlaceholder:', this.namePlaceholder); // Debug
-      console.log('emailPlaceholder:', this.emailPlaceholder); // Debug
     } catch (error) {
-      alert('Error con el token. Iniciá sesión nuevamente.');
+      this.modalService.error('Error con el token. Por favor, inicia sesión nuevamente', 'Error de autenticación');
       this.router.navigate(['/login']);
     }
   }
 
   onSubmit(update: NgForm) {
     if (this.userModel.password !== this.userModel.confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      this.modalService.error('Las contraseñas no coinciden', 'Validación fallida');
       return;
     }
 
-    // Validar que al menos uno de los campos fue modificado
     if (!this.userModel.name && !this.userModel.email && !this.userModel.password) {
-      alert('Debes cambiar al menos uno de tus datos');
+      this.modalService.info('Debes cambiar al menos uno de tus datos', 'Sin cambios');
       return;
     }
 
-    // Construir el DTO solo con los campos que fueron modificados
     const userDTO: any = {};
-
     if (this.userModel.name) {
       userDTO.name = this.userModel.name;
     }
@@ -90,25 +81,21 @@ export class UpdateComponent implements OnInit, OnDestroy {
     }
 
     if (this.userId === null) {
-      alert('Usuario no identificado.');
+      this.modalService.error('Usuario no identificado', 'Error');
       return;
     }
 
     this.subscription = this.authService.updateUser(this.userId, userDTO).subscribe({
       next: (res) => {
-        alert('Datos actualizados correctamente. Debes volver a iniciar sesión.');
+        this.modalService.success('Datos actualizados correctamente. Redirigiendo a login...', 'Actualización exitosa');
         this.authService.logout();
-        this.router.navigate(['/login']);
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
       },
       error: (err) => {
-        console.error('Error en update:', err);
-        console.error('Status:', err.status);
-        console.error('Message:', err.message);
-        console.error('Error response:', err.error);
-
-        // Mostrar el error específico del backend
-        const errorMessage = err.error?.message || err.error?.error || 'Error al actualizar los datos.';
-        alert(`Error: ${errorMessage}`);
+        const errorMessage = err.error?.message || err.error?.error || 'Error al actualizar los datos';
+        this.modalService.error(errorMessage, 'Error en la actualización');
       }
     });
   }
