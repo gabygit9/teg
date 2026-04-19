@@ -5,7 +5,6 @@ import {Subscription} from 'rxjs';
 import {FormsModule, NgForm} from '@angular/forms';
 import {requestUserDTO} from '../../../core/models/interfaces/ResponseUserDTO';
 import {Router, RouterLink} from '@angular/router';
-import {jwtDecode} from 'jwt-decode';
 import { ModalMessageService } from '../../../core/services/modal.service';
 
 @Component({
@@ -42,15 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy{
       this.authService.loggedIn$.subscribe(isLogged => {
         this.isLoggedIn = isLogged;
         if (isLogged) {
-          const token = this.authService.getToken();
-          if (token) {
-            try {
-              const decoded: any = jwtDecode(token);
-              this.userName = decoded.name || "Usuario";
-            } catch {
-              this.userName = "Usuario";
-            }
-          }
+          this.userName = this.authService.getUserNameFromToken() || "Usuario";
         } else {
           this.userName = "";
         }

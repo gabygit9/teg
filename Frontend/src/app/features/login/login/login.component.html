@@ -10,8 +10,10 @@
   <form #login="ngForm" (ngSubmit)="onSubmit(login)">
     <div *ngIf="isLoggedIn">
       <h2 class="texto-blanco-grande">Sesión iniciada por: <strong>{{ userName }}</strong></h2>
-      <button class="btn" type="button" (click)="logOut()">Cerrar sesión</button>
-      <button class="btn" type="button" (click)="irAlLobby()">Volver al Lobby</button>
+      <div class="form-button-container">
+        <button class="btn" type="button" (click)="irAlLobby()">Volver al Lobby</button>
+        <button class="btn btn-cerrar-sesion" type="button" (click)="logOut()">Cerrar sesión</button>
+      </div>
     </div>
 
     <ng-container *ngIf="!isLoggedIn">
