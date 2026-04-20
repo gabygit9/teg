@@ -1,162 +1,532 @@
-/* Reemplazo completo: nuevo diseño fotorrealista según especificaciones del usuario */
+/* --- Importar tipografías correctas (Montserrat para cuerpo, Stalinist One para título) --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Stalinist+One&display=swap');
 
-/* --- 1. OVERLAY DE FONDO --- */
-.main-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4); /* Capa de oscurecimiento fotorrealista */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+/* ==========================================================================
+   BASE Y RESET
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* --- 2. TARJETA CENTRAL (Efecto Vidrio Premium) --- */
-.central-card {
-  background: rgba(255, 255, 255, 0.05); /* Fondo muy sutil y claro */
-  backdrop-filter: blur(15px); /* Efecto de desenfoque de fondo fotorrealista */
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 215, 0, 0.15); /* Borde dorado tenue fotorrealista */
-  border-radius: 20px;
-  padding: 50px;
-  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.6); /* Sombra proyectada profunda */
-  width: 900px;
-  max-width: calc(100vw - 40px);
-  text-align: center;
-  color: #f3efe6;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Decoración sutil: rayos y textura metálica muy tenue */
-.central-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
-  pointer-events: none;
-}
-
-/* --- 3. TÍTULO PRINCIPAL (Efecto Metal Fundido 3D) --- */
-.main-title {
-  font-family: 'Stencil', sans-serif; /* Fuente militar/stencil pesada */
-  text-transform: uppercase;
-  font-size: 40px;
-  margin: 10px 0 8px 0;
-  background: linear-gradient(to bottom, #cf9d1d 0%, #ffdb71 50%, #8b6b15 100%); /* Degradado metálico fotorrealista */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.8)); /* Sombra profunda para relieve 3D */
-  letter-spacing: 4px;
-}
-
-/* Soporte para navegadores que no clippean el texto con el fondo */
-.main-title.fallback {
-  color: #cf9d1d;
-  text-shadow: 1px 2px 0 rgba(0,0,0,0.6), 0 6px 22px rgba(0,0,0,0.5);
-}
-
-/* --- 4. TEXTOS SECUNDARIOS --- */
-.subtitle {
-  font-family: 'Montserrat', sans-serif; /* Fuente limpia y moderna */
-  color: #d1b88e; /* Color ocre tenue y elegante */
-  margin-bottom: 30px;
-  font-size: 18px;
-}
-
-.welcome-message {
+.game-config-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #ffffff;
   font-family: 'Montserrat', sans-serif;
-  color: #f0f0f0; /* Color blanco sucio elegante */
-  font-size: 16px;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.welcome-message .username {
-  font-weight: bold;
-  color: #ffffff; /* Nombre en blanco puro */
-}
-
-.logo-container {
-  width: 140px;
-  height: 140px;
-  margin: 0 auto 18px auto;
-  border-radius: 50%;
-  background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 20%), url('/assets/images/map.jpg');
+  /* Fondo del tablero */
   background-size: cover;
   background-position: center;
-  box-shadow: inset 0 4px 10px rgba(255,255,255,0.02), 0 8px 24px rgba(0,0,0,0.6);
-  border: 2px solid rgba(255,215,0,0.08);
+  background-attachment: fixed;
+  position: relative;
 }
 
-/* --- 5. BOTONES PREMIUM METÁLICOS --- */
-.button-container {
+/* Overlay oscuro */
+.game-config-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 0;
+}
+
+/* ==========================================================================
+   FORMULARIO (Principal)
+   ========================================================================== */
+.form-content {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 850px;
+  padding: 35px 40px;
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   TÍTULO Y HEADER
+   ========================================================================== */
+.title-config {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.title {
+  font-family: 'Stalinist One', cursive;
+  font-size: 2rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  /* Degradado Metálico Latón / Oro Viejo fotorrealista */
+  background: linear-gradient(to bottom, #cf9d1d 0%, #ffdb71 50%, #8b6b15 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Sombra profunda para relieve 3D */
+  filter: drop-shadow(2px 4px 5px rgba(0, 0, 0, 0.9));
+}
+
+.lane {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.5), transparent);
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   GRID DE OPCIONES (Cantidad y Color)
+   ========================================================================== */
+.options-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
+  align-items: start;
+}
+
+.option-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.option-label {
+  font-size: 0.9rem;
+  color: #d1b88e;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.option-hint {
+  font-size: 0.7rem;
+  color: #b89a70;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   CANTIDAD DE JUGADORES
+   ========================================================================== */
+.players-size {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   justify-content: center;
-  margin-top: 40px;
+}
+
+.players-count {
+  font-size: 1.6rem;
+  color: #ffdb71;
+  font-weight: 700;
+  min-width: 45px;
+  margin: 0;
+  text-align: center;
+}
+
+.btn-plyr-size {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  background: radial-gradient(circle at center, #b89431 0%, #8b6b15 100%);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.6), 0 6px 12px rgba(0,0,0,0.5);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.btn-plyr-size:hover:not(:disabled) {
+  background: radial-gradient(circle at center, #cfac45 0%, #a6811e 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.6);
+}
+
+.btn-plyr-size:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,0.7), 0 3px 8px rgba(0,0,0,0.4);
+}
+
+.btn-plyr-size:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   SELECCIÓN DE COLOR
+   ========================================================================== */
+.color-selection {
+  padding: 9px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 130px;
+}
+
+.color-selection:hover {
+  border-color: rgba(255, 215, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.color-selection:focus {
+  outline: none;
+  border-color: rgba(255, 215, 0, 0.8);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+.color-selection option {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   SECCIÓN DE BOTS
+   ========================================================================== */
+.bots-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.section-label {
+  font-size: 0.9rem;
+  color: #d1b88e;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.bot-players {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.bot-players::-webkit-scrollbar {
+  width: 5px;
+}
+
+.bot-players::-webkit-scrollbar-track {
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 5px;
+}
+
+.bot-players::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 5px;
+}
+
+.bot-players::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.5);
+}
+
+.bot-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.bot-player:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 215, 0, 0.2);
+}
+
+.bot-player input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #ffdb71;
+  flex-shrink: 0;
+}
+
+.bot-player p {
+  margin: 0;
+  color: #d1b88e;
+  font-weight: 500;
+  font-size: 0.85rem;
+  min-width: 50px;
+}
+
+.bot-difficulty {
+  padding: 6px 9px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 85px;
+}
+
+.bot-difficulty:hover:not(:disabled) {
+  border-color: rgba(255, 215, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.bot-difficulty:focus {
+  outline: none;
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.15);
+}
+
+.bot-difficulty:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bot-difficulty option {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+.actions-butons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
   flex-wrap: wrap;
 }
 
-/* Estilo Base de Ambos Botones */
-.btn-continuar, .btn-cerrar-sesion {
-  border: 2px solid rgba(0, 0, 0, 0.5); /* Borde de bisel fotorrealista */
-  border-radius: 10px;
-  padding: 15px 30px;
-  font-weight: bold;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* Sombra proyectada fotorrealista */
-  color: #fff;
-  transition: all 0.3s ease;
+.action-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 26px;
+  flex: 1;
+  min-width: 150px;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
   cursor: pointer;
-  user-select: none;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  border: 2px solid #1a1a1a;
+  outline: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: -1px -1px 2px rgba(0,0,0,1), 1px 1px 1px rgba(255,255,255,0.2);
+  background: radial-gradient(circle at center, #b89431 0%, #8b6b15 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,0.4),
+    inset 0 -3px 6px rgba(0,0,0,0.6),
+    0 8px 16px rgba(0,0,0,0.5);
 }
 
-/* Efecto de Relieve 3D en Hover para Ambos Botones */
-.btn-continuar:hover, .btn-cerrar-sesion:hover {
-  transform: translateY(-3px); /* Movimiento físico fotorrealista */
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
+.action-btn:hover {
+  background: radial-gradient(circle at center, #cfac45 0%, #a6811e 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(0,0,0,0.6);
 }
 
-/* Botón Continuar (Efecto Latón/Oro Viejo Castrense) */
-.btn-continuar {
-  background: linear-gradient(to bottom, #8b6b15 0%, #cf9d1d 50%, #4f3c0c 100%); /* Degradado de metal fundido fotorrealista */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Texto grabado fotorrealista */
+.action-btn:active {
+  transform: translateY(0px);
+  box-shadow:
+    inset 0 3px 5px rgba(0,0,0,0.7),
+    0 6px 12px rgba(0,0,0,0.4);
 }
 
-/* Botón Cerrar Sesión (Efecto Hierro Pavonado/Borravino Profundo) */
-.btn-cerrar-sesion {
-  background: linear-gradient(to bottom, #600000 0%, #900000 50%, #300000 100%); /* Degradado de metal forjado fotorrealista */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Texto grabado fotorrealista */
+@keyframes brillo {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-/* Accesibilidad: focus states */
-.btn-continuar:focus, .btn-cerrar-sesion:focus {
-  outline: 3px solid rgba(255, 215, 0, 0.15);
-  outline-offset: 3px;
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent);
+  animation: brillo 3s infinite;
+  z-index: 1;
+  pointer-events: none;
 }
 
-/* Responsive tweaks */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 900px) {
+  .form-content {
+    padding: 35px 30px;
+    max-width: 95%;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-content {
+    padding: 35px 25px;
+    width: 95%;
+    gap: 16px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .action-btn {
+    min-width: 130px;
+    padding: 10px 22px;
+    font-size: 0.75rem;
+  }
+
+  .bot-players {
+    max-height: 180px;
+    padding: 10px;
+    gap: 7px;
+  }
+
+  .bot-player {
+    padding: 8px 9px;
+    gap: 9px;
+  }
+}
+
 @media (max-width: 600px) {
-  .central-card {
-    padding: 28px;
-    width: calc(100vw - 24px);
+  .form-content {
+    padding: 30px 20px;
+    width: 95%;
+    gap: 14px;
   }
-  .main-title {
-    font-size: 22px;
-    letter-spacing: 2px;
+
+  .title {
+    font-size: 1.4rem;
   }
-  .logo-container {
-    width: 96px;
-    height: 96px;
+
+  .title-config {
+    gap: 5px;
   }
-  .btn-continuar, .btn-cerrar-sesion {
-    padding: 12px 18px;
+
+  .option-label {
+    font-size: 0.85rem;
+  }
+
+  .option-hint {
+    font-size: 0.65rem;
+  }
+
+  .players-count {
+    font-size: 1.4rem;
+  }
+
+  .btn-plyr-size {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .color-selection {
+    min-width: 110px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .section-label {
+    font-size: 0.85rem;
+  }
+
+  .bot-players {
+    max-height: 160px;
+    padding: 10px;
+  }
+
+  .bot-player {
+    padding: 7px 8px;
+  }
+
+  .bot-difficulty {
+    font-size: 0.75rem;
+    padding: 5px 8px;
+    min-width: 75px;
+  }
+
+  .actions-butons {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .action-btn {
     width: 100%;
-    justify-content: center;
+    min-width: unset;
+    padding: 9px 20px;
+    font-size: 0.75rem;
   }
-  .button-container { gap: 12px; flex-direction: column; }
 }

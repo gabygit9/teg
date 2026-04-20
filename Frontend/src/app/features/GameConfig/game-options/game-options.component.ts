@@ -40,19 +40,19 @@ export class GameOptionsComponent implements OnInit{
     const colorId = Number(this.options.host.color.id);
     switch (colorId) {
       case 1:
-        this.options.host.color.name = "Red";
+        this.options.host.color.name = "Rojo ";
         break;
       case 2:
-        this.options.host.color.name = "Blue";
+        this.options.host.color.name = "Azul";
         break;
       case 3:
-        this.options.host.color.name = "Green";
+        this.options.host.color.name = "Verde";
         break;
       case 4:
-        this.options.host.color.name = "Yellow";
+        this.options.host.color.name = "Amarillo";
         break;
       case 5:
-        this.options.host.color.name = "Black";
+        this.options.host.color.name = "Negro";
         break;
       case 6:
         this.options.host.color.name = "Magenta";
@@ -87,11 +87,11 @@ export class GameOptionsComponent implements OnInit{
     do {
       id = Math.floor(Math.random() * 6) + 1;
       switch (id) {
-        case 1: name = "Red"; break;
-        case 2: name = "Blue"; break;
-        case 3: name = "Green"; break;
-        case 4: name = "Yellow"; break;
-        case 5: name = "Black"; break;
+        case 1: name = "Rojo"; break;
+        case 2: name = "Azul"; break;
+        case 3: name = "Verde"; break;
+        case 4: name = "Amarillo"; break;
+        case 5: name = "Negro"; break;
         case 6: name = "Magenta"; break;
       }
       newColor = { id, name };

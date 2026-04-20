@@ -1,13 +1,17 @@
 <div class="game-config-container">
-  @if (currentPage === 'game-options') {
-    <app-game-options
-      (changePageToPlayers)="changePage($event)"
-      (submitForm)="getForm($event)">
-    </app-game-options>
-  } @else if (currentPage === 'game-players') {
-    <app-game-config-players
-      [options]="gameOptions"
-      (changePageToOptions)="changePage($event)">
-    </app-game-config-players>
-  }
+  <section class="hero-section">
+    <div>
+      @if (currentPage === 'game-options') {
+        <app-game-options
+          (changePageToPlayers)="changePage($event)"
+          (submitForm)="getForm($event)">
+        </app-game-options>
+      } @else if (currentPage === 'game-players') {
+        <app-game-config-players
+          [options]="gameOptions"
+          (changePageToOptions)="changePage($event)">
+        </app-game-config-players>
+      }
+    </div>
+  </section>
 </div>

@@ -1,13 +1,14 @@
-import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnDestroy, Output} from '@angular/core';
 import {GameConfigForm} from '../../../core/models/interfaces/GameConfigModels';
 import {GameService} from '../../../core/services/game.service';
 import {Observable, of, Subscription, switchMap} from 'rxjs';
 import {GameDataDTO} from "../../../core/models/interfaces/GameDataDTO";
 import {Router} from "@angular/router";
+import {DifficultyPipe} from '../../../shared/pipes/difficulty.pipe';
 
 @Component({
     selector: 'app-game-config-players',
-    imports: [],
+    imports: [DifficultyPipe],
     templateUrl: './game-config-players.component.html',
     styleUrl: './game-config-players.component.css'
 })
@@ -90,6 +91,4 @@ export class GameConfigPlayersComponent implements OnDestroy {
             switchMap(() => this.assignBotsSequentially(index + 1)) // Llama al siguiente bot
         );
     }
-
-
 }
