@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -58,11 +59,20 @@ public class PlayerController {
     }
 
     @PostMapping("/player-game-bot/{gameId}")
-    public ResponseEntity<PlayerGameDto> registrarJugadorBot(@PathVariable int gameId,
-                                                             @RequestParam int difficultId,
-                                                             @RequestParam int colorId) {
-        PlayerGameDto bot = playerService.createBotPlayerGame(gameId, difficultId, colorId);
-        return ResponseEntity.ok(bot);
+    public ResponseEntity<List<PlayerGameDto>> registrarJugadorBot(@PathVariable int gameId,
+                                                                   @RequestParam(required = false) Integer difficultId,
+                                                                   @RequestParam int colorId,
+                                                                   @RequestParam(required = false) Integer quantity) {
+        // Si no se proporciona difficulty, usar nivel por defecto 1
+        int diff = (difficultId == null) ? 1 : difficultId;
+        int qty = (quantity == null || quantity < 1) ? 1 : quantity;
+
+        List<PlayerGameDto> created = new ArrayList<>();
+        for (int i = 0; i < qty; i++) {
+            PlayerGameDto bot = playerService.createBotPlayerGame(gameId, diff, colorId);
+            created.add(bot);
+        }
+        return ResponseEntity.ok(created);
     }
 
     @PostMapping("/player-game-human/{gameId}")
@@ -138,5 +148,4 @@ public class PlayerController {
     }
 
 }
-
 

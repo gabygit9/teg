@@ -52,13 +52,27 @@ private ObjectiveService objectiveService;
      * Asocia una implementación concreta del estado a partir del enum almacenado.
      */
     private StateGame initState(String description) {
-        return switch (description.toUpperCase()){
+        if (description == null) {
+            throw new IllegalArgumentException("Descripción de estado nula al inicializar el contexto de la partida");
+        }
+        String key = description.toUpperCase();
+        return switch (key) {
             case "PREPARATION" -> new PreparationStateGame(gameService, countryGameService, gameStateService);
             case "FIRST_ROUND" -> new FirstRoundStateGame(playerService, gameStateService);
             case "SECOND_ROUND" -> new SecondRoundStateGame(playerService, gameStateService);
             case "HOSTILITIES" -> new HostilitiesStateGame(playerService, objectiveService, gameService, gameStateService);
             case "FINISHED" -> new FinishedStateGame(playerService, gameService, gameStateService);
-            default -> throw new IllegalStateException("Estado desconocido: " + description.toUpperCase());
+            default -> {
+                // intentar encontrar el estado por ignore-case via gameStateService
+                try {
+                    var opt = gameStateService.findByDescriptionIgnoreCase(key);
+                    if (opt.isPresent()) {
+                        yield initState(opt.get().getDescription());
+                    }
+                } catch (Exception ignored) {
+                }
+                throw new IllegalStateException("Estado desconocido al inicializar contexto: " + description);
+            }
         };
     }
 
@@ -74,9 +88,23 @@ private ObjectiveService objectiveService;
      * y reemplaza el estado actual en el contexto.
      */
     public void moveState(Game game) {
-        String newStateDescription = currentState.moveState(game).getDescription();
-        StateGameEntity newState =
-                gameStateService.findByDescription(newStateDescription);
+        StateGameEntity result = currentState.moveState(game);
+        if (result == null) {
+            throw new IllegalStateException("El estado siguiente retornado por la estrategia es null");
+        }
+
+        String newStateDescription = result.getDescription();
+        if (newStateDescription == null) {
+            throw new IllegalStateException("La descripción del nuevo estado es null");
+        }
+
+        StateGameEntity newState = gameStateService.findByDescription(newStateDescription);
+        if (newState == null) {
+            // intentar búsqueda case-insensitive
+            var opt = gameStateService.findByDescriptionIgnoreCase(newStateDescription);
+            if (opt.isPresent()) newState = opt.get();
+            else throw new IllegalStateException("No se encontró entidad StateGameEntity para descripción: " + newStateDescription);
+        }
 
         this.stateGameEntity = newState;
         this.currentState = initState(newState.getDescription());

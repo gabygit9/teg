@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -54,6 +55,11 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             // Error esperado por input inválido -> devolver 400 con mensaje útil
             System.err.println("[GameController.startGame] Bad request: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (NoSuchElementException e) {
+            // Falta configuración o datos en BD (ej. nivel de bot no encontrado)
+            System.err.println("[GameController.startGame] Data missing: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {

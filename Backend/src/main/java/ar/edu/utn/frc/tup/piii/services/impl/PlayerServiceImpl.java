@@ -267,7 +267,15 @@ public class PlayerServiceImpl implements PlayerService {
         Game game = gameService.findById(gameId);
         if (game == null) throw new NoSuchElementException("Partida no encontrada.");
         Color color = colorRepo.findById(colorId).orElseThrow(() -> new NoSuchElementException("Color no encontrado."));
-        LevelBot level = levelBotRepository.findById(difficultId).orElseThrow(() -> new NoSuchElementException("Nivel no encontrado."));
+        LevelBot level = levelBotRepository.findById(difficultId).orElseGet(() -> {
+            String name;
+            return levelBotRepository.save(new LevelBot(difficultId, switch (difficultId) {
+                case 1 -> LevelBot.NOVICE;
+                case 2 -> LevelBot.BALANCED;
+                case 3 -> LevelBot.EXPERT;
+                default -> LevelBot.NOVICE;
+            }));
+        });
         BotPlayer bot = searchAvailableBot(gameId, level);
 
         PlayerGame jp = playerGameRepository.save(new PlayerGame(
@@ -331,21 +339,44 @@ public class PlayerServiceImpl implements PlayerService {
         List<BasePlayer> players = findByGameId(gameId).stream().map(PlayerGame::getPlayer).toList();
         if (players.size() == 6) throw new IllegalArgumentException("Partida con cantidad máxima de players.");
         List<BotPlayer> bots = playerBotRepository.findByLevelBot(difficult);
-        Random random = new Random();
-        BotPlayer ret;
-        boolean found;
+        if (bots == null || bots.isEmpty()) {
+            // No existing bots for this level: create one on demand and use it
+            String levelName = (difficult != null ? difficult.getName() : "bot");
+            BotPlayer created = new BotPlayer();
+            created.setName(levelName + "_generated_1");
+            created.setAvailableArmies(0);
+            created.setLevelBot(difficult);
+            playerBotRepository.save(created);
+            bots = playerBotRepository.findByLevelBot(difficult);
+        }
 
-        do {
-            int randomIndex = random.nextInt(5);
-            ret = bots.get(randomIndex);
-            found = false;
-            for (BasePlayer jp: players) {
-                if (jp.getId() == ret.getId()) {
-                    found = true;
-                    break;
-                }
+        Random random = new Random();
+        BotPlayer ret = null;
+        int attempts = 0;
+
+        // Elegir un bot aleatorio entre los disponibles, evitando bots ya usados en la partida
+        while (attempts < 10) { // limitar intentos para evitar loop infinito
+            int randomIndex = random.nextInt(bots.size());
+            BotPlayer candidate = bots.get(randomIndex);
+            boolean used = players.stream().anyMatch(p -> p.getId() == candidate.getId());
+            if (!used) {
+                ret = candidate;
+                break;
             }
-        } while (found);
+            attempts++;
+        }
+
+        if (ret == null) {
+            // Si no encontramos un bot no usado tras varios intentos, crear uno nuevo y retornarlo
+            String levelName = (difficult != null ? difficult.getName() : "bot");
+            int existingCount = (int) playerBotRepository.count();
+            BotPlayer newBot = new BotPlayer();
+            newBot.setName(levelName + "_generated_" + (existingCount + 1));
+            newBot.setAvailableArmies(0);
+            newBot.setLevelBot(difficult);
+            playerBotRepository.save(newBot);
+            return newBot;
+        }
 
         return ret;
     }
@@ -401,3 +432,4 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
 }
+
