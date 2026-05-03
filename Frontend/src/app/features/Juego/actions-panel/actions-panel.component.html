@@ -22,9 +22,7 @@
     {{ conquerMessage }}
   </div>
 
-
-
-  <div style="display: flex; flex-direction: column; gap: 12px;overflow-y: auto; scrollbar-width: none">
+  <div class="actions-list">
     <button class="pedir-tarjeta" (click)="askCard()" [disabled]="!canAskCards" [class.activo]="hasConquer()">Pedir Tarjeta</button>
     <button (click)="movePhaseCooldown = true; movePhase()" [disabled]="!activeTurn || movePhaseCooldown">Siguiente fase del turn</button>
     <button (click)="see_cards()">Ver tarjetas</button>

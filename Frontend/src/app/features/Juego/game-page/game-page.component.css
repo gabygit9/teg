@@ -1,9 +1,8 @@
 .game-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh; /* cambiado desde height:100vh para permitir que el layout crezca si hay footer */
   font-family: 'Segoe UI', sans-serif;
-  background-image: url('/assets/images/Tablero 72 dpi.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -47,7 +46,8 @@
 }
 
 .sidebar {
-  width: 220px;
+  /* width: 220px; */
+  flex: 0 0 220px; /* fija el ancho en el layout flex y evita solapamientos */
   background-color: var(--card-bg);
   color: var(--text-color);
   display: flex;
@@ -92,22 +92,26 @@
 
   /* NUEVO: aseguran que se repartan correctamente */
   min-width: 0;
+
+  /* centrar vertical y horizontalmente */
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
 }
 
 .mapa {
   min-width: 0;
   z-index: 10;
-  flex: 1;
+  flex: 0 1 auto;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.mapa img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
+  /* Aumentamos el espacio restado para asegurar que no llegue al footer */
+  max-height: calc(100vh - 160px);
+  width: 100%;
+  margin: 0 auto;
 }
 
 .historial {

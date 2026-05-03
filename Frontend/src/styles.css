@@ -11,8 +11,9 @@ html, body {
   --button-bg: var(--primary-color);
   --button-text: #ffffff;
   --card-bg: #0f1720;
+  --right-panel-width: 300px; /* ancho del panel derecho, ajustar según necesidad */
   color: var(--text-color);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

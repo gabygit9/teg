@@ -13,10 +13,8 @@
 
 .map-container {
   flex: none;
-  height: auto;
   width: 90vw;
   max-width: 2500px;
-  background-image: url('/assets/images/map.jpg');
   aspect-ratio: 2250 / 1143;
   position: relative;
   background-size: contain;

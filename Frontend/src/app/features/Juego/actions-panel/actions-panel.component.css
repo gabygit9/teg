@@ -1,9 +1,32 @@
 /* panel container and buttons: use theme variables for color consistency */
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* tomar toda la altura que el padre permita */
+  width: 100%;
+}
+
 .panel-container {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  /* asegurar que el fondo cubra el contenido y respetar el padding */
+  padding: 8px; /* reducir padding externo para que el fondo no sobresalga */
+  box-sizing: border-box;
+  /* usar 100% del contenedor padre (la clase .sidebar en la página controla el ancho) */
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  /* fondo transparente (se eliminó la semitransparencia) */
+  background-color: transparent;
+  align-items: stretch;
+  /* dejar que el contenedor use toda la altura disponible */
   height: 100%;
+  /* evitar que el panel quede por debajo del mapa */
+  position: relative;
+  z-index: 20; /* asegurar visibilidad sobre el mapa pero sin ser excesivo */
+  /* evitar que hijos sobresalgan y creen rectángulos superpuestos */
+  overflow: hidden;
 }
 
 button {
@@ -17,6 +40,7 @@ button {
   transition: background-color 0.2s ease;
   border-radius: 6px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 button:disabled {
@@ -224,4 +248,45 @@ button {
   10% {opacity: 1;}
   90% {opacity: 1;}
   100% {opacity: 0;}
+}
+
+/* lista de acciones: ahora limitada a .panel-container para evitar conflictos globales */
+:host .panel-container > .actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* reducir aún más el espacio entre botones */
+  /* permitir que la lista se expanda y tome el espacio disponible */
+  flex: 1 1 auto;
+  overflow: visible;
+  max-height: none;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+
+  /* fondo del contenedor de botones */
+  background-color: var(--card-bg);
+  padding: 6px; /* menos padding para que el fondo no se extienda demasiado */
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.02); /* sutil borde */
+  box-shadow: none; /* quitar sombra para evitar rectángulos superpuestos */
+  /* asegurar que no se superponga a elementos externos */
+  position: relative;
+  z-index: 2;
+}
+
+/* Botones: hacerlos más anchos y reducir espacios internos/externos */
+:host .panel-container > .actions-list > button {
+  width: calc(100% - 12px); /* más anchos: menos margen horizontal */
+  margin: 1px 6px; /* márgenes aún más reducidos */
+  padding: 21px 10px; /* padding vertical pequeño */
+  box-sizing: border-box;
+}
+
+/* estilos finos para la scrollbar (WebKit) - ya no se usan pero los dejamos sin efecto */
+.actions-list::-webkit-scrollbar {
+  width: 0;
+}
+.actions-list::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 8px;
 }
