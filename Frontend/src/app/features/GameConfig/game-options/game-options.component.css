@@ -405,6 +405,31 @@
   pointer-events: none;
 }
 
+/* Visual disabled state for action buttons */
+.action-btn:disabled,
+.action-btn[disabled] {
+  opacity: 0.45; /* visual dim */
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.6); /* flatter look */
+  background: linear-gradient(circle at center, rgba(120,100,60,0.6) 0%, rgba(70,55,30,0.6) 100%);
+  color: rgba(255,255,255,0.65);
+  text-shadow: none;
+}
+
+.action-btn:disabled:hover,
+.action-btn[disabled]:hover {
+  transform: none;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* Hide the moving shine on disabled buttons */
+.action-btn:disabled::before,
+.action-btn[disabled]::before {
+  opacity: 0;
+  animation: none;
+}
+
 /* ==========================================================================
    RESPONSIVE DESIGN
    ========================================================================== */

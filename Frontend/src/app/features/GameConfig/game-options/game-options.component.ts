@@ -1,16 +1,19 @@
-import {Component, ElementRef, EventEmitter, inject, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {Bot, Color, GameConfigForm} from '../../../core/models/interfaces/GameConfigModels';
 import {AuthService} from '../../../core/services/auth.service';
 import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-game-options',
+  standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './game-options.component.html',
-  styleUrl: './game-options.component.css'
+  styleUrls: ['./game-options.component.css']
 })
 export class GameOptionsComponent implements OnInit{
 
@@ -20,9 +23,6 @@ export class GameOptionsComponent implements OnInit{
 
   @Output() changePageToPlayers = new EventEmitter<string>();
   @Output() submitForm = new EventEmitter<GameConfigForm>();
-
-  @ViewChildren('select') selectElements!: QueryList<ElementRef<HTMLSelectElement>>;
-  @ViewChildren('checkbox') checkboxElements!: QueryList<ElementRef<HTMLInputElement>>;
 
   options: GameConfigForm = {
     players: 3,
@@ -111,46 +111,65 @@ export class GameOptionsComponent implements OnInit{
     }
   }
 
-  checkBot(index: number) {
-    const selectDifficulty = this.selectElements.get(index);
-    const checkboxBot = this.checkboxElements.get(index);
+  /**
+   * Maneja el click/change del checkbox del bot.
+   * checkbox: HTMLInputElement desde template (#checkbox)
+   * select: HTMLSelectElement desde template (#select)
+   */
+  checkBot(index: number, checkbox: HTMLInputElement, select: HTMLSelectElement) {
+    const botId = index + 1;
+    const bots: Bot[] = [...this.options.bots];
 
-    if (!selectDifficulty || !checkboxBot) {
-      return;
-    }
+    const existingIndex = bots.findIndex(b => b.id === botId);
 
-    let bots: Bot[] = this.options.bots;
-
-    for (let i = 0; i < bots.length; i++) {
-      if (bots.length > 0 && bots[i].name === "Bot " + (index+1)) {
-        bots.splice(i, 1);
-        this.options.bots = bots;
-        return;
+    if (checkbox && checkbox.checked) {
+      // agregar o actualizar
+      const difficulty = (select && select.value) ? select.value : 'Novice';
+      if (existingIndex === -1) {
+        const newBot: Bot = {
+          id: botId,
+          difficulty,
+          color: { id: -1, name: 'notSet' },
+          name: `Bot ${botId}`
+        };
+        bots.push(newBot);
+      } else {
+        bots[existingIndex].difficulty = difficulty;
+      }
+    } else {
+      // quitar bot si existe
+      if (existingIndex !== -1) {
+        bots.splice(existingIndex, 1);
       }
     }
 
-    let newBot: Bot = {
-      id: index + 1,
-      difficulty: selectDifficulty.nativeElement.value,
-      color: {
-        id: -1,
-        name: "notSet"
-      },
-      name: "Bot " + (index + 1)
-    }
-
-    bots.push(newBot);
     this.options.bots = bots;
   }
 
+  updateBotDifficulty(index: number, value: string) {
+    const botId = index + 1;
+    const bots = [...this.options.bots];
+    const existing = bots.find(b => b.id === botId);
+    if (existing) {
+      existing.difficulty = value;
+      this.options.bots = bots;
+    }
+  }
+
   addPlayers() {
-    this.options.players++;
+    if (this.options.players < 6) {
+      this.options.players++;
+    }
   }
 
   removePlayers() {
-    this.options.players--;
+    if (this.options.players > 3) {
+      this.options.players--;
+      // Trim bots to match new players count (players-1)
+      const maxBots = this.options.players - 1;
+      this.options.bots = this.options.bots.filter(b => b.id <= maxBots);
+    }
   }
 
   protected readonly Array = Array;
 }
-

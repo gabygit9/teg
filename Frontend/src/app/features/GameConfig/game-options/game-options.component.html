@@ -37,7 +37,7 @@
       <div class="bot-players">
         @for (item of Array(options.players - 1); track $index) {
           <div class="bot-player">
-            <input type="checkbox" #checkbox (click)="checkBot($index)" />
+            <input type="checkbox" #checkbox (click)="checkBot($index, checkbox, select)" />
             <p>Bot {{$index + 1}}</p>
             <select #select class="bot-difficulty" name="level" [disabled]="checkbox.checked">
               <option value="Novice">Novato</option>
@@ -52,7 +52,14 @@
     <!-- Botones de Acción -->
     <div class="actions-butons">
       <button class="action-btn" type="button" (click)="goLobby()">Volver</button>
-      <button class="action-btn" type="button" (click)="emitSubmit();changePageToPlayers.emit('game-players')">Buscar Jugadores</button>
+      <button
+        class="action-btn"
+        type="button"
+        (click)="emitSubmit();changePageToPlayers.emit('game-players')"
+        [disabled]="options.bots.length !== (options.players - 1)"
+        [attr.aria-disabled]="options.bots.length !== (options.players - 1)"
+        [attr.title]="options.bots.length !== (options.players - 1) ? 'Seleccione exactamente ' + (options.players - 1) + ' bots' : ''"
+      >Buscar Jugadores</button>
     </div>
   </form>
 </div>
