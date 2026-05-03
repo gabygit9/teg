@@ -8,13 +8,14 @@ import {Rol} from '../../../core/enums/Rol';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
   imports: [
     FormsModule,
     NgOptimizedImage,
     RouterLink
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit, OnDestroy{
 

@@ -7,6 +7,7 @@ import ar.edu.utn.frc.tup.piii.dto.GameDTO;
 import ar.edu.utn.frc.tup.piii.model.entities.*;
 import ar.edu.utn.frc.tup.piii.model.repository.PlayerGameRepository;
 import ar.edu.utn.frc.tup.piii.model.repository.GameRepository;
+import ar.edu.utn.frc.tup.piii.model.repository.CommunicationTypeRepository;
 import ar.edu.utn.frc.tup.piii.services.interfaces.*;
 import ar.edu.utn.frc.tup.piii.state.GameContext;
 import ar.edu.utn.frc.tup.piii.util.*;
@@ -35,6 +36,9 @@ class GameServiceImplTest {
 
     @Mock
     private GameRepository gameRepository;
+
+    @Mock
+    private CommunicationTypeRepository communicationTypeRepository;
 
     @InjectMocks
     private GameServiceImpl gameService;

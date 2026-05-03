@@ -40,7 +40,9 @@ public class GameController {
      * @return La gameDTO creada.
      */
     @PostMapping("/init")
-    public ResponseEntity<GameDTO> startGame(@RequestBody GameDTO gameDTO) {
+    public ResponseEntity<?> startGame(@RequestBody GameDTO gameDTO) {
+        // Log del payload entrante para facilitar debugging (temporal)
+        System.out.println("[GameController.startGame] incoming DTO: " + gameDTO);
         try {
             Game res = gameService.startGame(gameService.dtoToEntity(gameDTO));
 
@@ -49,8 +51,15 @@ public class GameController {
             } else {
                 return ResponseEntity.badRequest().build();
             }
+        } catch (IllegalArgumentException e) {
+            // Error esperado por input inválido -> devolver 400 con mensaje útil
+            System.err.println("[GameController.startGame] Bad request: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            System.out.println("Error en el controlador gameDTO -> iniciar gameDTO");
+            // Log completo de la excepción para encontrar la causa raíz
+            System.err.println("Error en el controlador gameDTO -> iniciar gameDTO: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

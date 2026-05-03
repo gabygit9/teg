@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './toast-notification.component.html',
-  styleUrl: './toast-notification.component.css'
+  styleUrls: ['./toast-notification.component.css']
 })
 export class ToastNotificationComponent implements OnInit, OnDestroy {
   toasts: Toast[] = [];
@@ -44,5 +44,9 @@ export class ToastNotificationComponent implements OnInit, OnDestroy {
         return '●';
     }
   }
-}
 
+  // trackBy function used by @for to avoid re-rendering all toasts
+  trackByToast(index: number, toast: Toast): string {
+    return toast.id;
+  }
+}

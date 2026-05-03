@@ -1,11 +1,11 @@
 <div class="toast-container">
-  @for (toast of toasts; track toast.id) {
-    <div class="toast" [class]="'toast-' + toast.type">
+  @for (toast of toasts; track trackByToast){
+    <div class="toast" [ngClass]="'toast-' + toast.type" role="status" aria-live="polite" [attr.data-id]="toast.id">
       <div class="toast-content">
         <div class="toast-header">
           <span class="toast-icon">{{ getIcon(toast.type) }}</span>
           <span class="toast-title">{{ toast.title }}</span>
-          <button class="toast-close" (click)="removeToast(toast.id)">×</button>
+          <button class="toast-close" (click)="removeToast(toast.id)" aria-label="Cerrar notificación">×</button>
         </div>
         <p class="toast-message">{{ toast.message }}</p>
       </div>
